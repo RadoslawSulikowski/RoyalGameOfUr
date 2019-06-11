@@ -21,7 +21,6 @@ public class Pawn extends Button{
     private static int greenPawnsAtFinish = 0;
 
 
-
     String getPawnColor(){
         return pawnColor;
     }
@@ -80,6 +79,7 @@ public class Pawn extends Button{
                 }
             });
         }
+
     }
 
     private void setFieldFreeOverGreenPawn(GridPane grid, int position){
@@ -113,21 +113,22 @@ public class Pawn extends Button{
             setConstraints(this, 8, 3);
             position = 18;
             setPawntextNumberOfPawnsOnPosition(grid, ++greenPawnsAtFinish, 18, "GREEN");
-            setOnAction((e) ->{if(whichPlayerTurn.equals("GREEN")){
-                ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
-                        "it has finished its journey over board!");
-            }
+            setOnAction((e) -> {
+                if(whichPlayerTurn.equals("GREEN")) {
+                    ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
+                            "it has finished its journey over board!");
+                }
             });
-            if(greenPawnsAtFinish == 7){
+            if(greenPawnsAtFinish == 7) {
                 ((Label) grid.lookup("#WhichTurnLabel")).setText("PLAYER GREEN");
                 ((Label) grid.lookup("#WhichActionLabel")).setText("WON");
-                for(Node node : grid.getChildren()){
-                    if(node instanceof Button){
-                        ((Button)node).setOnAction((e) ->
+                for(Node node : grid.getChildren()) {
+                    if(node instanceof Button) {
+                        ((Button) node).setOnAction((e) ->
                                 ((Label) grid.lookup("#WarningsLabel")).setText("The game has finished!"));
                     }
                 }
-            }else{
+            } else {
                 Pawn.setWhichPlayerTurnAllPawns(grid, "BLUE");
             }
         }
@@ -150,34 +151,35 @@ public class Pawn extends Button{
         } else {
             setConstraints(this, 8, 5);
             position = 18;
-            setPawntextNumberOfPawnsOnPosition(grid, ++bluePawnsAtFinish, 18, "BLUE");setOnAction((e) ->{
-                    if(whichPlayerTurn.equals("BLUE")){
-                        ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
-                                "it has finished its journey over board!");
-                    }
-                });
-            if(bluePawnsAtFinish == 7){
+            setPawntextNumberOfPawnsOnPosition(grid, ++bluePawnsAtFinish, 18, "BLUE");
+            setOnAction((e) -> {
+                if(whichPlayerTurn.equals("BLUE")) {
+                    ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
+                            "it has finished its journey over board!");
+                }
+            });
+            if(bluePawnsAtFinish == 7) {
                 ((Label) grid.lookup("#WhichTurnLabel")).setText("PLAYER BLUE");
                 ((Label) grid.lookup("#WhichActionLabel")).setText("WON");
 
-                for(Node node : grid.getChildren()){
-                    if(node instanceof Button){
-                        ((Button)node).setOnAction((e) ->
+                for(Node node : grid.getChildren()) {
+                    if(node instanceof Button) {
+                        ((Button) node).setOnAction((e) ->
                                 ((Label) grid.lookup("#WarningsLabel")).setText("The game has finished!"));
                     }
                 }
-            }else{
+            } else {
                 Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
             }
         }
-        if(bluePawnsAtFinish != 7){
+        if(bluePawnsAtFinish != 7) {
             Pawn.setIfMoveAllPawns(grid, false);
         }
     }
 
     private void greenPawnMove(GridPane grid){
         ((Label) grid.lookup("#WarningsLabel")).setText("");
-        if(this.position == 1){
+        if(this.position == 1) {
             setPawntextNumberOfPawnsOnPosition(grid, --greenPawnsOnStart, 1, "GREEN");
             setText("");
         }
@@ -222,7 +224,7 @@ public class Pawn extends Button{
 
     private void bluePawnMove(GridPane grid){
         ((Label) grid.lookup("#WarningsLabel")).setText("");
-        if(this.position == 1){
+        if(this.position == 1) {
             setPawntextNumberOfPawnsOnPosition(grid, --bluePawnsOnStart, 1, "BLUE");
             setText("");
         }

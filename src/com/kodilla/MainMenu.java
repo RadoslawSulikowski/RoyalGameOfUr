@@ -26,9 +26,10 @@ public class MainMenu{
     }
 
     private void clearGridFromNodes(){
-        for(Node node : grid.getChildren()){
-            if(node instanceof Label || node instanceof Button)
-            grid.getChildren().remove(node);
+        for(Node node : grid.getChildren()) {
+            if(node instanceof Label || node instanceof Button) {
+                grid.getChildren().remove(node);
+            }
         }
     }
 
@@ -68,17 +69,20 @@ public class MainMenu{
         Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
         Button royalGameOfUrButton = new Button("Royal Game Of Ur");
+        royalGameOfUrButton.setId("RGOUButton");
         royalGameOfUrButton.setFont(buttonFont);
-        royalGameOfUrButton.setOnAction((e) -> {
-            grid.getChildren().remove(royalGameOfUrButton);
-            grid.getChildren().remove(grid.lookup("#MainMenuLabel"));
-            resetRowsAndColumns();
-            RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid);
-            grid = royalGameOfUr.newGame();
-        });
+        royalGameOfUrButton.setOnAction((e) -> royalGameOfUrButtonAction());
 
         grid.add(royalGameOfUrButton, 1, 4);
     }
 
+    private void royalGameOfUrButtonAction(){
 
+        grid.getChildren().remove(grid.lookup("#RGOUButton"));
+        grid.getChildren().remove(grid.lookup("#MainMenuLabel"));
+        resetRowsAndColumns();
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid);
+        grid = royalGameOfUr.newGame();
+
+    }
 }

@@ -4,7 +4,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -54,7 +53,7 @@ public class RoyalGameOfUr{
     }
 
     private void clearGridFromNodes(){
-        for(Node node : grid.getChildren()){
+        for(Node node : grid.getChildren()) {
             grid.getChildren().remove(node);
         }
     }
@@ -185,6 +184,8 @@ public class RoyalGameOfUr{
 
     private void addPawns(){
 
+        Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
+
         for(int i = 0; i < 7; i++) {
             Pawn pawn = new Pawn(grid, "GREEN");
             pawn.setStyle(
@@ -192,6 +193,7 @@ public class RoyalGameOfUr{
                             "-fx-background-color: #0BBF0E;" +
                             "-fx-border-width: 5;"
             );
+            pawn.setFont(pawnFont);
             grid.add(pawn, 7, 3);
         }
         for(int i = 0; i < 7; i++) {
@@ -201,6 +203,7 @@ public class RoyalGameOfUr{
                             "-fx-background-color: #117EEB;" +
                             "-fx-border-width: 5;"
             );
+            pawn.setFont(pawnFont);
             grid.add(pawn, 7, 5);
         }
     }
