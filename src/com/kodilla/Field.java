@@ -52,6 +52,7 @@ class Field extends ImageView{
     }
 
     void setIsBusyByGreen(boolean busy){
+
         isBusyByGreen = busy;
     }
 
@@ -78,10 +79,11 @@ class Field extends ImageView{
 
     Pawn getPawnFromField(GridPane grid, int fieldNumber){
 
-            for(Node node : grid.getChildren()) {
-                if(node instanceof Pawn && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber)))
-                    return (Pawn) node;
+        for(Node node : grid.getChildren()) {
+            if(node instanceof Pawn && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
+                return (Pawn) node;
             }
+        }
         return null;
     }
 

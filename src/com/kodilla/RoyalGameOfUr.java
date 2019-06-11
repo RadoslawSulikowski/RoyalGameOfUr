@@ -1,24 +1,23 @@
 package com.kodilla;
 
-import javafx.application.Application;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
 import java.util.Random;
 
 import static javafx.scene.paint.Color.*;
+import static javafx.scene.paint.Color.SILVER;
 
-public class RoyalGameOfUr extends Application{
+public class RoyalGameOfUr{
 
-    private Image imageBack = new Image("com/resources/background.png", true);
     private Image imageBlueField = new Image("com/resources/blueField.png", true);
     private Image imageGreenField = new Image("com/resources/greenField.png", true);
     private Image imageHighlightedYellowField = new Image("com/resources/highlightedYellowField.png", true);
@@ -30,13 +29,34 @@ public class RoyalGameOfUr extends Application{
     private Image imageBlueFinalBaseField = new Image("com/resources/blueFinalBaseField.png", true);
     private Image imageGreenFinalBaseField = new Image("com/resources/greenFinalBaseField.png", true);
 
+    private Background background;
+    private GridPane grid;
     private Random generator = new Random();
-    private GridPane grid = new GridPane();
-
     private boolean firstMovePlayerSelected = false;
     private int bluePlayerDrawResult = 0;
     private int greenPlayerDrawResult = 0;
 
+
+    public RoyalGameOfUr(GridPane grid, Background background){
+        this.grid = grid;
+        this.background = background;
+        grid.setBackground(background);
+
+    }
+
+    public GridPane newGame(){
+
+        setRowsAndColumns();
+        drawBoard();
+        addPawns();
+        addLabels();
+        addCoins();
+        addButtons();
+        Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
+
+        return grid;
+
+    }
 
     private void setRowsAndColumns(){
         for(int i = 0; i < 16; i++) {
@@ -186,7 +206,6 @@ public class RoyalGameOfUr extends Application{
             );
             grid.add(pawn, 7, 5);
         }
-
     }
 
     private void addLabels(){
@@ -261,16 +280,16 @@ public class RoyalGameOfUr extends Application{
 
     private int convertCoinsIntoPoints(int goldCoins){
         if(goldCoins == 0) {
-            return 3;
+            return 30;
         }
         if(goldCoins == 1) {
-            return 1;
+            return 10;
         }
         if(goldCoins == 2) {
-            return 2;
+            return 20;
         }
         if(goldCoins == 3) {
-            return 4;
+            return 40;
         }
         return 0;
     }
@@ -312,36 +331,4 @@ public class RoyalGameOfUr extends Application{
         return null;
     }
 
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-
-        BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
-        BackgroundImage backgroundImage = new BackgroundImage(imageBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-        Background background = new Background(backgroundImage);
-
-        grid.setBackground(background);
-
-        setRowsAndColumns();
-        drawBoard();
-        addPawns();
-        addLabels();
-        addCoins();
-        addButtons();
-
-        Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
-
-        Scene scene = new Scene(grid, 1500, 850, Color.BLACK);
-        primaryStage.setTitle("RoyalGameOfUr");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        primaryStage.sizeToScene();
-        primaryStage.setResizable(false);
-    }
-
-    public static void main(String[] args){
-        launch(args);
-    }
 }
-
-

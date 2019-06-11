@@ -15,9 +15,14 @@ public class Pawn extends Button{
     private boolean ifMove = false;
     private String whichPlayerTurn = "";
     private String pawnColor;
+    private static int bluePawnsOnStart = 7;
+    private static int greenPawnsOnStart = 7;
+    private static int bluePawnsAtFinish = 0;
+    private static int greenPawnsAtFinish = 0;
 
 
-    private String getPawnColor(){
+
+    String getPawnColor(){
         return pawnColor;
     }
 
@@ -60,6 +65,7 @@ public class Pawn extends Button{
         this.setShape(new Circle(30));
         this.setMinSize(60, 60);
         this.setMaxSize(60, 60);
+        this.setText("7");
         if(pawnColor.equals("GREEN")) {
             this.setOnAction((e) -> {
                 if(ifMove && whichPlayerTurn.equals("GREEN")) {
@@ -77,16 +83,16 @@ public class Pawn extends Button{
     }
 
     private void setFieldFreeOverGreenPawn(GridPane grid, int position){
-        for(Node node : grid.getChildren()){
-            if(node instanceof Field && ((Field) node).getFieldNumberForGreen() == position){
+        for(Node node : grid.getChildren()) {
+            if(node instanceof Field && ((Field) node).getFieldNumberForGreen() == position) {
                 ((Field) node).setIsBusyByGreen(false);
             }
         }
     }
 
     private void setFieldFreeOverBluePawn(GridPane grid, int position){
-        for(Node node : grid.getChildren()){
-            if(node instanceof Field && ((Field) node).getFieldNumberForBlue() == position){
+        for(Node node : grid.getChildren()) {
+            if(node instanceof Field && ((Field) node).getFieldNumberForBlue() == position) {
                 ((Field) node).setIsBusyByBlue(false);
             }
         }
@@ -98,7 +104,7 @@ public class Pawn extends Button{
                 if(node instanceof Field && ((Field) node).getFieldNumberForGreen() == position) {
                     setConstraints(this, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
                     ((Field) node).setIsBusyByGreen(true);
-                    if(!((Field) node).getIsHighlighted()){
+                    if(!((Field) node).getIsHighlighted()) {
                         Pawn.setWhichPlayerTurnAllPawns(grid, "BLUE");
                     }
                 }
@@ -106,10 +112,28 @@ public class Pawn extends Button{
         } else {
             setConstraints(this, 8, 3);
             position = 18;
-            Pawn.setWhichPlayerTurnAllPawns(grid, "BLUE");
+            setPawntextNumberOfPawnsOnPosition(grid, ++greenPawnsAtFinish, 18, "GREEN");
+            setOnAction((e) ->{if(whichPlayerTurn.equals("GREEN")){
+                ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
+                        "it has finished its journey over board!");
+            }
+            });
+            if(greenPawnsAtFinish == 7){
+                ((Label) grid.lookup("#WhichTurnLabel")).setText("PLAYER GREEN");
+                ((Label) grid.lookup("#WhichActionLabel")).setText("WON");
+                for(Node node : grid.getChildren()){
+                    if(node instanceof Button){
+                        ((Button)node).setOnAction((e) ->
+                                ((Label) grid.lookup("#WarningsLabel")).setText("The game has finished!"));
+                    }
+                }
+            }else{
+                Pawn.setWhichPlayerTurnAllPawns(grid, "BLUE");
+            }
         }
-
-        Pawn.setIfMoveAllPawns(grid, false);
+        if(greenPawnsAtFinish != 7) {
+            Pawn.setIfMoveAllPawns(grid, false);
+        }
     }
 
     private void putBluePawnOnPosition(GridPane grid){
@@ -118,7 +142,7 @@ public class Pawn extends Button{
                 if(node instanceof Field && ((Field) node).getFieldNumberForBlue() == position) {
                     setConstraints(this, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
                     ((Field) node).setIsBusyByBlue(true);
-                    if(!((Field) node).getIsHighlighted()){
+                    if(!((Field) node).getIsHighlighted()) {
                         Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
                     }
                 }
@@ -126,41 +150,63 @@ public class Pawn extends Button{
         } else {
             setConstraints(this, 8, 5);
             position = 18;
-            Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
-        }
+            setPawntextNumberOfPawnsOnPosition(grid, ++bluePawnsAtFinish, 18, "BLUE");setOnAction((e) ->{
+                    if(whichPlayerTurn.equals("BLUE")){
+                        ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn - " +
+                                "it has finished its journey over board!");
+                    }
+                });
+            if(bluePawnsAtFinish == 7){
+                ((Label) grid.lookup("#WhichTurnLabel")).setText("PLAYER BLUE");
+                ((Label) grid.lookup("#WhichActionLabel")).setText("WON");
 
-        Pawn.setIfMoveAllPawns(grid, false);
+                for(Node node : grid.getChildren()){
+                    if(node instanceof Button){
+                        ((Button)node).setOnAction((e) ->
+                                ((Label) grid.lookup("#WarningsLabel")).setText("The game has finished!"));
+                    }
+                }
+            }else{
+                Pawn.setWhichPlayerTurnAllPawns(grid, "GREEN");
+            }
+        }
+        if(bluePawnsAtFinish != 7){
+            Pawn.setIfMoveAllPawns(grid, false);
+        }
     }
 
     private void greenPawnMove(GridPane grid){
         ((Label) grid.lookup("#WarningsLabel")).setText("");
-
-
+        if(this.position == 1){
+            setPawntextNumberOfPawnsOnPosition(grid, --greenPawnsOnStart, 1, "GREEN");
+            setText("");
+        }
         for(Node node : grid.getChildren()) {
-            if((position + fieldsToMove) >= 18){
+            if((position + fieldsToMove) >= 18) {
                 setFieldFreeOverGreenPawn(grid, position);
                 position += fieldsToMove;
                 putGreenPawnOnPosition(grid);
                 break;
             }
             if(node instanceof Field && ((Field) node).getFieldNumberForGreen() == (position + fieldsToMove)) {
-                if(!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()){
+                if(!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()) {
                     setFieldFreeOverGreenPawn(grid, position);
                     position += fieldsToMove;
                     setFieldsToMoveAllPawns(grid, 0);
                     putGreenPawnOnPosition(grid);
                     break;
                 }
-                if( ((Field)node).getIsBusyByGreen()){
+                if(((Field) node).getIsBusyByGreen()) {
                     ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn, cause on final field is your another pawn");
                 }
-                if( ((Field)node).getIsBusyByBlue() && ((Field)node).getIsHighlighted()){
+                if(((Field) node).getIsBusyByBlue() && ((Field) node).getIsHighlighted()) {
                     ((Label) grid.lookup("#WarningsLabel")).setText("You can't knock pawn on highlighted field");
                 }
 
-                if( ((Field)node).getIsBusyByBlue() && !((Field)node).getIsHighlighted()){
+                if(((Field) node).getIsBusyByBlue() && !((Field) node).getIsHighlighted()) {
                     setConstraints(((Field) node).getPawnFromField(grid, position + fieldsToMove), 7, 5);
                     (((Field) node).getPawnFromField(grid, position + fieldsToMove)).setPosition(1);
+                    setPawntextNumberOfPawnsOnPosition(grid, ++bluePawnsOnStart, 1, "BLUE");
                     setFieldFreeOverGreenPawn(grid, position);
                     position += fieldsToMove;
                     setFieldFreeOverBluePawn(grid, Field.convertFieldNumberOtherColors(position));
@@ -176,33 +222,37 @@ public class Pawn extends Button{
 
     private void bluePawnMove(GridPane grid){
         ((Label) grid.lookup("#WarningsLabel")).setText("");
-
+        if(this.position == 1){
+            setPawntextNumberOfPawnsOnPosition(grid, --bluePawnsOnStart, 1, "BLUE");
+            setText("");
+        }
         for(Node node : grid.getChildren()) {
-            if((position + fieldsToMove) >= 18){
+            if((position + fieldsToMove) >= 18) {
                 setFieldFreeOverBluePawn(grid, position);
                 position += fieldsToMove;
                 putBluePawnOnPosition(grid);
                 break;
             }
             if(node instanceof Field && ((Field) node).getFieldNumberForBlue() == (position + fieldsToMove)) {
-                if(!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()){
+                if(!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()) {
                     setFieldFreeOverBluePawn(grid, position);
                     position += fieldsToMove;
                     setFieldsToMoveAllPawns(grid, 0);
                     putBluePawnOnPosition(grid);
                     break;
                 }
-                if( ((Field)node).getIsBusyByBlue()){
+                if(((Field) node).getIsBusyByBlue()) {
                     ((Label) grid.lookup("#WarningsLabel")).setText("You can't move this pawn, cause on final field is your another pawn");
                 }
 
-                if( ((Field)node).getIsBusyByGreen() && ((Field)node).getIsHighlighted()){
+                if(((Field) node).getIsBusyByGreen() && ((Field) node).getIsHighlighted()) {
 
                     ((Label) grid.lookup("#WarningsLabel")).setText("You can't knock pawn on highlighted field");
                 }
-                if( ((Field)node).getIsBusyByGreen() && !((Field)node).getIsHighlighted()){
+                if(((Field) node).getIsBusyByGreen() && !((Field) node).getIsHighlighted()) {
                     setConstraints(((Field) node).getPawnFromField(grid, position + fieldsToMove), 7, 3);
                     (((Field) node).getPawnFromField(grid, position + fieldsToMove)).setPosition(1);
+                    setPawntextNumberOfPawnsOnPosition(grid, ++greenPawnsOnStart, 1, "GREEN");
                     setFieldFreeOverBluePawn(grid, position);
                     position += fieldsToMove;
                     setFieldFreeOverGreenPawn(grid, Field.convertFieldNumberOtherColors(position));
@@ -216,6 +266,13 @@ public class Pawn extends Button{
 
     }
 
+    private void setPawntextNumberOfPawnsOnPosition(GridPane grid, int numberOfPawns, int pawnPosition, String pawnColor){
+        for(Node node : grid.getChildren()) {
+            if(node instanceof Pawn && ((Pawn) node).getPosition() == pawnPosition && ((Pawn) node).pawnColor.equals(pawnColor)) {
+                ((Pawn) node).setText(((Integer) numberOfPawns).toString());
+            }
+        }
+    }
 
     static boolean getIfMoveFromPawn(GridPane grid){
         for(Node node : grid.getChildren()) {
