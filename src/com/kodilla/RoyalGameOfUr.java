@@ -280,16 +280,16 @@ public class RoyalGameOfUr{
 
     private int convertCoinsIntoPoints(int goldCoins){
         if(goldCoins == 0) {
-            return 30;
+            return 3;
         }
         if(goldCoins == 1) {
-            return 10;
+            return 1;
         }
         if(goldCoins == 2) {
-            return 20;
+            return 2;
         }
         if(goldCoins == 3) {
-            return 40;
+            return 4;
         }
         return 0;
     }
