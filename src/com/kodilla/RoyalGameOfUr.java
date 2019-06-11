@@ -5,9 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
@@ -29,7 +27,6 @@ public class RoyalGameOfUr{
     private Image imageBlueFinalBaseField = new Image("com/resources/blueFinalBaseField.png", true);
     private Image imageGreenFinalBaseField = new Image("com/resources/greenFinalBaseField.png", true);
 
-    private Background background;
     private GridPane grid;
     private Random generator = new Random();
     private boolean firstMovePlayerSelected = false;
@@ -37,10 +34,8 @@ public class RoyalGameOfUr{
     private int greenPlayerDrawResult = 0;
 
 
-    public RoyalGameOfUr(GridPane grid, Background background){
+    public RoyalGameOfUr(GridPane grid){
         this.grid = grid;
-        this.background = background;
-        grid.setBackground(background);
 
     }
 
@@ -58,16 +53,18 @@ public class RoyalGameOfUr{
 
     }
 
-    private void setRowsAndColumns(){
-        for(int i = 0; i < 16; i++) {
-            ColumnConstraints column = new ColumnConstraints();
-            column.setPercentWidth(100 / 16);
-            grid.getColumnConstraints().add(column);
+    private void clearGridFromNodes(){
+        for(Node node : grid.getChildren()){
+            grid.getChildren().remove(node);
         }
-        for(int i = 0; i < 9; i++) {
-            RowConstraints row = new RowConstraints();
-            row.setPercentHeight(100 / 9);
-            grid.getRowConstraints().add(row);
+    }
+
+    private void setRowsAndColumns(){
+        for(int i = 0; i < 15; i++) {
+            grid.getColumnConstraints().get(i).setPercentWidth(100 / 15);
+        }
+        for(int i = 0; i < 8; i++) {
+            grid.getRowConstraints().get(i).setPercentHeight(100 / 8);
         }
     }
 

@@ -21,6 +21,18 @@ public class GamePlatform extends Application{
     private Image imageBack = new Image("com/resources/background.png", true);
     private GridPane grid = new GridPane();
 
+    private void setRowsAndColumns(){
+        for(int i = 0; i < 150; i++) {
+            ColumnConstraints column = new ColumnConstraints();
+            column.setPercentWidth(0);
+            grid.getColumnConstraints().add(column);
+        }
+        for(int i = 0; i < 80; i++) {
+            RowConstraints row = new RowConstraints();
+            row.setPercentHeight(0);
+            grid.getRowConstraints().add(row);
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -28,11 +40,14 @@ public class GamePlatform extends Application{
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
         BackgroundImage backgroundImage = new BackgroundImage(imageBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);
+        grid.setBackground(background);
 
-        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, background);
+        setRowsAndColumns();
+
+        MainMenu menu = new MainMenu(grid);
 
 
-        Scene scene = new Scene(royalGameOfUr.newGame(), 1500, 850, Color.BLACK);
+        Scene scene = new Scene(menu.newMainMenu(), 1500, 800, Color.BLACK);
         primaryStage.setTitle("GamePlatform");
         primaryStage.setScene(scene);
         primaryStage.show();
