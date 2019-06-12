@@ -29,11 +29,11 @@ class RGOUConfigurator {
     private double numberOfRows = 8;
     private double numberOfColumns = 15;
 
-    RGOUConfigurator(GridPane grid){
+    RGOUConfigurator(GridPane grid) {
         this.grid = grid;
     }
 
-    void configure(){
+    void configure() {
         setRowsAndColumns();
         drawBoard();
         addPawns();
@@ -188,7 +188,7 @@ class RGOUConfigurator {
         Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
         for (int i = 1; i < 8; i++) {
-            Pawn pawn = new Pawn( "GREEN");
+            Pawn pawn = new Pawn("GREEN");
             pawn.setStyle(
                     "-fx-border-color: #044505;" +
                             "-fx-background-color: #0BBF0E;" +

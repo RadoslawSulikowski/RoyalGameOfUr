@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import static javafx.scene.layout.GridPane.setConstraints;
 import static javafx.scene.paint.Color.*;
@@ -100,9 +99,6 @@ class RoyalGameOfUr {
                 if (whichPlayerTurn.equals("GREEN")) {
 
                     setWhichPlayerTurn("BLUE");
-                    if (onePlayerGame) {
-                        computerMove();
-                    }
                 } else {
                     setWhichPlayerTurn("GREEN");
                 }
@@ -133,7 +129,7 @@ class RoyalGameOfUr {
 
     }
 
-    private void resetStaticFields(){
+    private void resetStaticFields() {
 
         bluePawnsOnStart = 7;
         greenPawnsOnStart = 7;
@@ -175,19 +171,19 @@ class RoyalGameOfUr {
 
         if (whichPlayerTurn.equals("GREEN") && greenPlayerDrawResult == 0) {
             greenPlayerDrawResult = convertCoinsIntoPoints(coinsToss());
-            ((Label)grid.lookup("#WarningsLabel")).setText( "Green result: " + greenPlayerDrawResult);
+            ((Label) grid.lookup("#WarningsLabel")).setText("Green result: " + greenPlayerDrawResult);
         }
         if (whichPlayerTurn.equals("BLUE") && bluePlayerDrawResult == 0) {
             bluePlayerDrawResult = convertCoinsIntoPoints(coinsToss());
 
-            ((Label)grid.lookup("#WarningsLabel")).setText( ((Label)grid.lookup("#WarningsLabel")).getText()
+            ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                     + "\nBlue result: " + bluePlayerDrawResult);
         }
         if (!onePlayerGame) {
             setWhichPlayerTurn("BLUE");
         } else {
             bluePlayerDrawResult = convertCoinsIntoPoints(coinsToss());
-            ((Label)grid.lookup("#WarningsLabel")).setText( ((Label)grid.lookup("#WarningsLabel")).getText()
+            ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                     + "\nBlue result: " + bluePlayerDrawResult);
 
         }
@@ -196,27 +192,28 @@ class RoyalGameOfUr {
                 bluePlayerDrawResult = 0;
                 greenPlayerDrawResult = 0;
 
-                ((Label)grid.lookup("#WarningsLabel")).setText( ((Label)grid.lookup("#WarningsLabel")).getText()
+                ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                         + "\nDraw - repeat first move player selection");
 
                 setWhichPlayerTurn("GREEN");
 
             }
             if (bluePlayerDrawResult > greenPlayerDrawResult) {
+                setWhichPlayerTurn("BLUE");
                 firstMovePlayerSelected = true;
                 setIfMove(false);
-                setWhichPlayerTurn("BLUE");
-                ((Label)grid.lookup("#WarningsLabel")).setText( ((Label)grid.lookup("#WarningsLabel")).getText()
+                ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                         + "\nBlue player starts game");
                 if (onePlayerGame) {
                     computerMove();
+
                 }
             }
             if (bluePlayerDrawResult < greenPlayerDrawResult) {
                 setWhichPlayerTurn("GREEN");
                 firstMovePlayerSelected = true;
                 setIfMove(false);
-                ((Label)grid.lookup("#WarningsLabel")).setText( ((Label)grid.lookup("#WarningsLabel")).getText()
+                ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                         + "\nGreen player starts game");
             }
         }
@@ -303,7 +300,7 @@ class RoyalGameOfUr {
                     ((Field) node).setIsBusyByBlue(true);
                     if (!((Field) node).getIsHighlighted()) {
                         setWhichPlayerTurn("GREEN");
-                    }else if(onePlayerGame){
+                    } else if (onePlayerGame) {
                         computerMove();
                     }
                 }
@@ -320,6 +317,7 @@ class RoyalGameOfUr {
             });
             if (bluePawnsAtFinish == 7) {
                 ((Label) grid.lookup("#WhichTurnLabel")).setText("PLAYER BLUE");
+
                 endOfGameAction();
             } else {
                 setWhichPlayerTurn("GREEN");
@@ -463,11 +461,14 @@ class RoyalGameOfUr {
 
 
     private void computerMove() {
+        fieldsToMove = convertCoinsIntoPoints(coinsToss());
         if (whichPlayerTurn.equals("BLUE")) {
 
             for (Node node : grid.getChildren()) {
-                if (node instanceof Pawn && ((Pawn)node).getPawnColor().equals("BLUE") && ((Pawn)node).getPosition() < 18){
-                    fieldsToMove = convertCoinsIntoPoints(coinsToss());
+                if (node instanceof Pawn
+                        && ((Pawn) node).getPawnColor().equals("BLUE")
+                        && ((Pawn) node).getPosition() < 18
+                        && ifFinalFieldFree((((Pawn) node).getPosition() + fieldsToMove), "BLUE")) {
                     bluePawnMove((Pawn) node);
                     break;
                 }

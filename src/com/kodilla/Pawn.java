@@ -26,7 +26,7 @@ class Pawn extends Button {
         return position;
     }
 
-    void setPosition(int position){
+    void setPosition(int position) {
         this.position = position;
     }
 
