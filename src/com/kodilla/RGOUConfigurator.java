@@ -8,7 +8,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-import static javafx.scene.paint.Color.BLACK;
 import static javafx.scene.paint.Color.WHITE;
 
 
@@ -84,31 +83,31 @@ class RGOUConfigurator {
         blueHomeBaseField.setFieldNumberForBlue(1);
         grid.add(blueHomeBaseField, 7, 5);
 
-        Field GreenFinalBaseField = new Field(imageGreenFinalBaseField);
-        GreenFinalBaseField.setFitWidth(width);
-        GreenFinalBaseField.setPreserveRatio(true);
-        GreenFinalBaseField.setFieldNumberForGreen(18);
-        grid.add(GreenFinalBaseField, 8, 3);
+        Field greenFinalBaseField = new Field(imageGreenFinalBaseField);
+        greenFinalBaseField.setFitWidth(width);
+        greenFinalBaseField.setPreserveRatio(true);
+        greenFinalBaseField.setFieldNumberForGreen(18);
+        grid.add(greenFinalBaseField, 8, 3);
 
-        Field BlueFinalBaseField = new Field(imageBlueFinalBaseField);
-        BlueFinalBaseField.setFitWidth(width);
-        BlueFinalBaseField.setPreserveRatio(true);
-        BlueFinalBaseField.setFieldNumberForBlue(18);
-        grid.add(BlueFinalBaseField, 8, 5);
+        Field blueFinalBaseField = new Field(imageBlueFinalBaseField);
+        blueFinalBaseField.setFitWidth(width);
+        blueFinalBaseField.setPreserveRatio(true);
+        blueFinalBaseField.setFieldNumberForBlue(18);
+        grid.add(blueFinalBaseField, 8, 5);
 
         for (int i = 4; i < 7; i++) {
-            Field GreenField = new Field(imageGreenField);
-            GreenField.setFitWidth(width);
-            GreenField.setPreserveRatio(true);
-            GreenField.setFieldNumberForGreen(8 - i);
-            grid.add(GreenField, i, 3);
+            Field greenField = new Field(imageGreenField);
+            greenField.setFitWidth(width);
+            greenField.setPreserveRatio(true);
+            greenField.setFieldNumberForGreen(8 - i);
+            grid.add(greenField, i, 3);
         }
         for (int i = 4; i < 7; i++) {
-            Field BlueField = new Field(imageBlueField);
-            BlueField.setFitWidth(width);
-            BlueField.setPreserveRatio(true);
-            BlueField.setFieldNumberForBlue(8 - i);
-            grid.add(BlueField, i, 5);
+            Field blueField = new Field(imageBlueField);
+            blueField.setFitWidth(width);
+            blueField.setPreserveRatio(true);
+            blueField.setFieldNumberForBlue(8 - i);
+            grid.add(blueField, i, 5);
         }
         for (int i = 3; i < 11; i++) {
             if (i == 6) {
@@ -142,44 +141,44 @@ class RGOUConfigurator {
         yellowField1.setFieldNumberForBlue(16);
         grid.add(yellowField1, 10, 5);
 
-        Field HighlightedYellowField = new Field(imageHighlightedYellowField);
-        HighlightedYellowField.setFitWidth(width);
-        HighlightedYellowField.setIsHighlighted();
-        HighlightedYellowField.setPreserveRatio(true);
-        HighlightedYellowField.setFieldNumberForGreen(9);
-        HighlightedYellowField.setFieldNumberForBlue(9);
+        Field highlightedYellowField = new Field(imageHighlightedYellowField);
+        highlightedYellowField.setFitWidth(width);
+        highlightedYellowField.setIsHighlighted();
+        highlightedYellowField.setPreserveRatio(true);
+        highlightedYellowField.setFieldNumberForGreen(9);
+        highlightedYellowField.setFieldNumberForBlue(9);
 
-        Field HighlightedYellowField1 = new Field(imageHighlightedYellowField);
-        HighlightedYellowField1.setFitWidth(width);
-        HighlightedYellowField1.setIsHighlighted();
-        HighlightedYellowField1.setPreserveRatio(true);
-        HighlightedYellowField1.setFieldNumberForGreen(17);
-        HighlightedYellowField1.setFieldNumberForBlue(13);
+        Field highlightedYellowField1 = new Field(imageHighlightedYellowField);
+        highlightedYellowField1.setFitWidth(width);
+        highlightedYellowField1.setIsHighlighted();
+        highlightedYellowField1.setPreserveRatio(true);
+        highlightedYellowField1.setFieldNumberForGreen(17);
+        highlightedYellowField1.setFieldNumberForBlue(13);
 
-        Field HighlightedYellowField2 = new Field(imageHighlightedYellowField);
-        HighlightedYellowField2.setFitWidth(width);
-        HighlightedYellowField2.setIsHighlighted();
-        HighlightedYellowField2.setPreserveRatio(true);
-        HighlightedYellowField2.setFieldNumberForGreen(13);
-        HighlightedYellowField2.setFieldNumberForBlue(17);
+        Field highlightedYellowField2 = new Field(imageHighlightedYellowField);
+        highlightedYellowField2.setFitWidth(width);
+        highlightedYellowField2.setIsHighlighted();
+        highlightedYellowField2.setPreserveRatio(true);
+        highlightedYellowField2.setFieldNumberForGreen(13);
+        highlightedYellowField2.setFieldNumberForBlue(17);
 
-        Field HighlightedBlueField = new Field(imageHighlightedBlueField);
-        HighlightedBlueField.setFitWidth(width);
-        HighlightedBlueField.setIsHighlighted();
-        HighlightedBlueField.setPreserveRatio(true);
-        HighlightedBlueField.setFieldNumberForBlue(5);
+        Field highlightedBlueField = new Field(imageHighlightedBlueField);
+        highlightedBlueField.setFitWidth(width);
+        highlightedBlueField.setIsHighlighted();
+        highlightedBlueField.setPreserveRatio(true);
+        highlightedBlueField.setFieldNumberForBlue(5);
 
-        Field HighlightedGreenField = new Field(imageHighlightedGreenField);
-        HighlightedGreenField.setFitWidth(width);
-        HighlightedGreenField.setIsHighlighted();
-        HighlightedGreenField.setPreserveRatio(true);
-        HighlightedGreenField.setFieldNumberForGreen(5);
+        Field highlightedGreenField = new Field(imageHighlightedGreenField);
+        highlightedGreenField.setFitWidth(width);
+        highlightedGreenField.setIsHighlighted();
+        highlightedGreenField.setPreserveRatio(true);
+        highlightedGreenField.setFieldNumberForGreen(5);
 
-        grid.add(HighlightedYellowField, 6, 4);
-        grid.add(HighlightedYellowField1, 9, 3);
-        grid.add(HighlightedYellowField2, 9, 5);
-        grid.add(HighlightedBlueField, 3, 5);
-        grid.add(HighlightedGreenField, 3, 3);
+        grid.add(highlightedYellowField, 6, 4);
+        grid.add(highlightedYellowField1, 9, 3);
+        grid.add(highlightedYellowField2, 9, 5);
+        grid.add(highlightedBlueField, 3, 5);
+        grid.add(highlightedGreenField, 3, 3);
 
 
     }
@@ -188,25 +187,27 @@ class RGOUConfigurator {
 
         Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
-        for (int i = 0; i < 7; i++) {
-            Pawn pawn = new Pawn(grid, "GREEN");
+        for (int i = 1; i < 8; i++) {
+            Pawn pawn = new Pawn( "GREEN");
             pawn.setStyle(
                     "-fx-border-color: #044505;" +
                             "-fx-background-color: #0BBF0E;" +
                             "-fx-border-width: 5;"
             );
             pawn.setFont(pawnFont);
+            pawn.setId("GreenPawn" + i);
             pawn.setAlignment(Pos.BASELINE_CENTER);
             grid.add(pawn, 7, 3);
         }
-        for (int i = 0; i < 7; i++) {
-            Pawn pawn = new Pawn(grid, "BLUE");
+        for (int i = 1; i < 8; i++) {
+            Pawn pawn = new Pawn("BLUE");
             pawn.setStyle(
                     "-fx-border-color: #100D5E;" +
                             "-fx-background-color: #117EEB;" +
                             "-fx-border-width: 5;"
             );
             pawn.setFont(pawnFont);
+            pawn.setId("BluePawn" + i);
             grid.add(pawn, 7, 5);
         }
     }
@@ -237,6 +238,7 @@ class RGOUConfigurator {
         warningsLabel.setMinWidth(600);
         warningsLabel.setTextFill(WHITE);
         warningsLabel.setWrapText(true);
+        warningsLabel.setAlignment(Pos.BOTTOM_LEFT);
         grid.add(warningsLabel, 3, 2);
 
     }
@@ -244,8 +246,6 @@ class RGOUConfigurator {
     private void addCoins() {
         for (int i = 11; i < 14; i++) {
             Coin coin = new Coin();
-            coin.setRadius(40);
-            coin.setFill(BLACK);
             grid.add(coin, i, 1);
         }
     }

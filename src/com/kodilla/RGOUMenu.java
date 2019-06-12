@@ -101,14 +101,16 @@ class RGOUMenu {
     }
 
     private void onePlayersButtonAction() {
-        ((Label) (grid.lookup("#RGOUMenuLabel2"))).setText("One Player mode under construction");
+        clearGrid();
+
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, true);
+        grid = royalGameOfUr.newGame();
     }
 
     private void twoPlayersButtonAction() {
-
         clearGrid();
 
-        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid);
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, false);
         grid = royalGameOfUr.newGame();
 
     }

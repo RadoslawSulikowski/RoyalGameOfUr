@@ -60,7 +60,7 @@ class Field extends ImageView {
         super(image);
     }
 
-    Pawn getPawnFromField(GridPane grid, int fieldNumber) {
+    Pawn getOpponentPawnFromField(GridPane grid, int fieldNumber) {
 
         for (Node node : grid.getChildren()) {
             if (node instanceof Pawn && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
