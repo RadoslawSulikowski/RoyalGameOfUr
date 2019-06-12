@@ -1,6 +1,5 @@
 package com.kodilla;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -9,14 +8,16 @@ import javafx.scene.text.FontWeight;
 
 import static javafx.scene.paint.Color.WHITE;
 
-public class MainMenu{
+class MainMenu {
     private GridPane grid;
+    private double numberOfRows = 10;
+    private double numberOfColumns = 3;
 
-    public MainMenu(GridPane grid){
+    MainMenu(GridPane grid) {
         this.grid = grid;
     }
 
-    public GridPane newMainMenu(){
+    GridPane newMainMenu() {
         setRowsAndColumns();
         addLabels();
         addButtons();
@@ -25,35 +26,35 @@ public class MainMenu{
 
     }
 
-    private void clearGridFromNodes(){
-        for(Node node : grid.getChildren()) {
-            if(node instanceof Label || node instanceof Button) {
-                grid.getChildren().remove(node);
-            }
+
+    private void setRowsAndColumns() {
+
+        for (int i = 0; i < numberOfRows; i++) {
+            grid.getRowConstraints().get(i).setPercentHeight(100.0 / numberOfRows);
+        }
+        for (int i = 0; i < numberOfColumns; i++) {
+            grid.getColumnConstraints().get(i).setPercentWidth(100.0 / numberOfColumns);
         }
     }
 
-    private void setRowsAndColumns(){
+    private void resetRowsAndColumns() {
 
-        for(int i = 0; i < 10; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(100 / 10);
-        }
-        for(int i = 0; i < 3; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(100 / 3);
-        }
-    }
-
-    private void resetRowsAndColumns(){
-
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < numberOfRows; i++) {
             grid.getRowConstraints().get(i).setPercentHeight(0);
         }
-        for(int i = 0; i < 3; i++) {
+        for (int i = 0; i < numberOfColumns; i++) {
             grid.getColumnConstraints().get(i).setPercentWidth(0);
         }
     }
 
-    private void addLabels(){
+    private void clearGrid() {
+        while (grid.getChildren().size() != 0) {
+            grid.getChildren().remove(grid.getChildren().get(0));
+        }
+        resetRowsAndColumns();
+    }
+
+    private void addLabels() {
         Font labelsFont25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
 
         Label mainMenuLabel = new Label();
@@ -65,7 +66,7 @@ public class MainMenu{
         grid.add(mainMenuLabel, 1, 2);
     }
 
-    private void addButtons(){
+    private void addButtons() {
         Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
         Button royalGameOfUrButton = new Button("Royal Game Of Ur");
@@ -76,13 +77,12 @@ public class MainMenu{
         grid.add(royalGameOfUrButton, 1, 4);
     }
 
-    private void royalGameOfUrButtonAction(){
+    private void royalGameOfUrButtonAction() {
 
-        grid.getChildren().remove(grid.lookup("#RGOUButton"));
-        grid.getChildren().remove(grid.lookup("#MainMenuLabel"));
-        resetRowsAndColumns();
-        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid);
-        grid = royalGameOfUr.newGame();
+        clearGrid();
+
+        RGOUMenu rgouMenu = new RGOUMenu(grid);
+        grid = rgouMenu.newMenu();
 
     }
 }

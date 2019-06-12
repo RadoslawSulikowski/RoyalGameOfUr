@@ -7,18 +7,18 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class GamePlatform extends Application{
+public class GamePlatform extends Application {
 
-    private Image imageBack = new Image("com/resources/background.png", true);
+    private Image imageBack = new Image("file:src/com/resources/background.png", true);
     private GridPane grid = new GridPane();
 
-    private void setRowsAndColumns(){
-        for(int i = 0; i < 150; i++) {
+    private void addRowsAndColumns() {
+        for (int i = 0; i < 150; i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setPercentWidth(0);
             grid.getColumnConstraints().add(column);
         }
-        for(int i = 0; i < 80; i++) {
+        for (int i = 0; i < 80; i++) {
             RowConstraints row = new RowConstraints();
             row.setPercentHeight(0);
             grid.getRowConstraints().add(row);
@@ -26,14 +26,14 @@ public class GamePlatform extends Application{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) {
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
         BackgroundImage backgroundImage = new BackgroundImage(imageBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);
         grid.setBackground(background);
 
-        setRowsAndColumns();
+        addRowsAndColumns();
 
         MainMenu menu = new MainMenu(grid);
 
@@ -46,7 +46,7 @@ public class GamePlatform extends Application{
         primaryStage.setResizable(false);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 }
