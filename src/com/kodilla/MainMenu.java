@@ -11,7 +11,7 @@ import static javafx.scene.paint.Color.WHITE;
 class MainMenu {
     private GridPane grid;
     private double numberOfRows = 10;
-    private double numberOfColumns = 3;
+    private double numberOfColumns = 5;
 
     MainMenu(GridPane grid) {
         this.grid = grid;
@@ -58,31 +58,48 @@ class MainMenu {
         Font labelsFont25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
 
         Label mainMenuLabel = new Label();
+        mainMenuLabel.setText("Select Game:");
         mainMenuLabel.setId("MainMenuLabel");
         mainMenuLabel.setFont(labelsFont25);
         mainMenuLabel.setMinWidth(300);
         mainMenuLabel.setTextFill(WHITE);
-        mainMenuLabel.setText("Select Game:");
-        grid.add(mainMenuLabel, 1, 2);
+        grid.add(mainMenuLabel, 2, 2);
+
+        Label royalGameOfUrLabel = new Label();
+        royalGameOfUrLabel.setText("Royal Game Of Ur");
+        royalGameOfUrLabel.setId("RoyalGameOfUr:");
+        royalGameOfUrLabel.setFont(labelsFont25);
+        royalGameOfUrLabel.setMinWidth(300);
+        royalGameOfUrLabel.setTextFill(WHITE);
+        grid.add(royalGameOfUrLabel, 1, 4);
     }
 
     private void addButtons() {
         Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
-        Button royalGameOfUrButton = new Button("Royal Game Of Ur");
-        royalGameOfUrButton.setId("RGOUButton");
+        Button royalGameOfUrButton = new Button("Play Game");
+        royalGameOfUrButton.setId("PlayRGOUButton");
         royalGameOfUrButton.setFont(buttonFont);
         royalGameOfUrButton.setOnAction((e) -> royalGameOfUrButtonAction());
+        grid.add(royalGameOfUrButton, 2, 4);
 
-        grid.add(royalGameOfUrButton, 1, 4);
+        Button instructionButton = new Button("Instruction PL");
+        instructionButton.setId("InstructionButton");
+        instructionButton.setFont(buttonFont);
+        instructionButton.setOnAction((e) -> instructionButtonAction());
+        grid.add(instructionButton, 3, 4);
     }
 
     private void royalGameOfUrButtonAction() {
-
         clearGrid();
-
         RGOUMenu rgouMenu = new RGOUMenu(grid);
         grid = rgouMenu.newMenu();
+    }
 
+
+    private void instructionButtonAction() {
+        clearGrid();
+        InstructionMenu menu = new InstructionMenu(grid);
+        grid = menu.newInstruction();
     }
 }

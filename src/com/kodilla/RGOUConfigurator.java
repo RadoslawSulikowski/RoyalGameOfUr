@@ -184,9 +184,7 @@ class RGOUConfigurator {
     }
 
     private void addPawns() {
-
         Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
-
         for (int i = 1; i < 8; i++) {
             Pawn pawn = new Pawn("GREEN");
             pawn.setStyle(
@@ -240,7 +238,6 @@ class RGOUConfigurator {
         warningsLabel.setWrapText(true);
         warningsLabel.setAlignment(Pos.BOTTOM_LEFT);
         grid.add(warningsLabel, 3, 2);
-
     }
 
     private void addCoins() {
@@ -262,13 +259,11 @@ class RGOUConfigurator {
         Button mainMenuButton = new Button("Main Menu");
         mainMenuButton.setId("MainMenuButton");
         mainMenuButton.setFont(buttonFont);
-
         grid.add(mainMenuButton, 12, 4, 2, 1);
 
         Button newGameButton = new Button("New game");
         newGameButton.setId("NewGameButton");
         newGameButton.setFont(buttonFont);
-
         grid.add(newGameButton, 12, 5, 2, 1);
     }
 
