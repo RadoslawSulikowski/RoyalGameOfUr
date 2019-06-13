@@ -99,6 +99,9 @@ class RoyalGameOfUr {
                 if (whichPlayerTurn.equals("GREEN")) {
 
                     setWhichPlayerTurn("BLUE");
+                    if(onePlayerGame){
+                        computerMove();
+                    }
                 } else {
                     setWhichPlayerTurn("GREEN");
                 }
@@ -462,6 +465,12 @@ class RoyalGameOfUr {
 
     private void computerMove() {
         fieldsToMove = convertCoinsIntoPoints(coinsToss());
+        if(ifPlayerMoveImpossible()) {
+
+            ((Label) grid.lookup("#WarningsLabel")).setText(whichPlayerTurn + " player has no possible moves.\n" +
+                    whichPlayerTurn + " lost his turn.");
+            setWhichPlayerTurn("GREEN");
+        }
         if (whichPlayerTurn.equals("BLUE")) {
 
             for (Node node : grid.getChildren()) {

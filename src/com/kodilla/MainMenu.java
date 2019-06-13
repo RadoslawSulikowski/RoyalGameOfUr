@@ -66,7 +66,7 @@ class MainMenu {
         grid.add(mainMenuLabel, 2, 2);
 
         Label royalGameOfUrLabel = new Label();
-        royalGameOfUrLabel.setText("Royal Game Of Ur");
+        royalGameOfUrLabel.setText("Royal Game Of Ur:");
         royalGameOfUrLabel.setId("RoyalGameOfUr:");
         royalGameOfUrLabel.setFont(labelsFont25);
         royalGameOfUrLabel.setMinWidth(300);
