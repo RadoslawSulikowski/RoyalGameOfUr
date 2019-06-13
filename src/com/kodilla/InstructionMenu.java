@@ -102,7 +102,7 @@ class InstructionMenu {
         previousButton.setId("PreviousButton");
         previousButton.setFont(buttonFont);
         previousButton.setOnAction((e) -> previousButtonAction());
-        grid.add(previousButton, 2, 1);
+        grid.add(previousButton, 2, 1,2,1);
 
         ((ImageView) grid.lookup("#Page")).setImage(page2);
     }
