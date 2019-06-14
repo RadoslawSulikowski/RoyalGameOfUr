@@ -1,12 +1,13 @@
 package com.kodilla;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+
+import static javafx.geometry.HPos.CENTER;
 
 class InstructionMenu {
     private Image page1 = new Image("file:src/com/resources/page1.png", true);
@@ -33,26 +34,16 @@ class InstructionMenu {
         grid.getRowConstraints().get(1).setMinHeight(700);
         grid.getRowConstraints().get(2).setMinHeight(50);
 
-        grid.getColumnConstraints().get(0).setMinWidth(101);
-        grid.getColumnConstraints().get(1).setMinWidth(101);
-        grid.getColumnConstraints().get(2).setMinWidth(101);
-        grid.getColumnConstraints().get(3).setMinWidth(101);
-        grid.getColumnConstraints().get(4).setMinWidth(101);
-
-        grid.getColumnConstraints().get(5).setMinWidth(490);
-
-        grid.getColumnConstraints().get(6).setMinWidth(101);
-        grid.getColumnConstraints().get(7).setMinWidth(101);
-        grid.getColumnConstraints().get(8).setMinWidth(101);
-        grid.getColumnConstraints().get(9).setMinWidth(101);
-        grid.getColumnConstraints().get(10).setMinWidth(101);
+        grid.getColumnConstraints().get(0).setMinWidth(505);
+        grid.getColumnConstraints().get(1).setMinWidth(490);
+        grid.getColumnConstraints().get(2).setMinWidth(505);
 
     }
 
     private void resetRowsAndColumns() {
 
         double numberOfRows = 3;
-        double numberOfColumns = 11;
+        double numberOfColumns = 3;
 
         for (int i = 0; i < numberOfRows; i++) {
             grid.getRowConstraints().get(i).setPercentHeight(0);
@@ -74,15 +65,16 @@ class InstructionMenu {
         Button nextButton = new Button("Next");
         nextButton.setId("NextButton");
         nextButton.setFont(buttonFont);
+        GridPane.setHalignment(nextButton, CENTER);
         nextButton.setOnAction((e) -> nextButtonAction());
-        grid.add(nextButton, 8, 1);
+        grid.add(nextButton, 2, 1);
 
         Button mainMenuButton = new Button("Main Menu");
         mainMenuButton.setId("MainMenuButton");
         mainMenuButton.setFont(buttonFont);
-        mainMenuButton.setAlignment(Pos.CENTER_RIGHT);
+        GridPane.setHalignment(mainMenuButton, CENTER);
         mainMenuButton.setOnAction((e) -> mainMenuButtonAction());
-        grid.add(mainMenuButton, 5, 2);
+        grid.add(mainMenuButton, 1, 2);
     }
 
     private void addPage() {
@@ -91,7 +83,7 @@ class InstructionMenu {
         page.setFitWidth(490);
         page.setPreserveRatio(true);
         page.setId("Page");
-        grid.add(page, 5, 1);
+        grid.add(page, 1, 1);
     }
 
 
@@ -101,8 +93,9 @@ class InstructionMenu {
         Button previousButton = new Button("Previous");
         previousButton.setId("PreviousButton");
         previousButton.setFont(buttonFont);
+        GridPane.setHalignment(previousButton, CENTER);
         previousButton.setOnAction((e) -> previousButtonAction());
-        grid.add(previousButton, 2, 1,2,1);
+        grid.add(previousButton, 0, 1);
 
         ((ImageView) grid.lookup("#Page")).setImage(page2);
     }
@@ -113,8 +106,9 @@ class InstructionMenu {
         Button nextButton = new Button("Next");
         nextButton.setId("NextButton");
         nextButton.setFont(buttonFont);
+        GridPane.setHalignment(nextButton, CENTER);
         nextButton.setOnAction((e) -> nextButtonAction());
-        grid.add(nextButton, 8, 1);
+        grid.add(nextButton, 2, 1);
 
         ((ImageView) grid.lookup("#Page")).setImage(page1);
     }

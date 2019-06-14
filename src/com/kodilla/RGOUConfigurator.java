@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+import static javafx.geometry.HPos.CENTER;
 import static javafx.scene.paint.Color.WHITE;
 
 
@@ -194,7 +195,7 @@ class RGOUConfigurator {
             );
             pawn.setFont(pawnFont);
             pawn.setId("GreenPawn" + i);
-            pawn.setAlignment(Pos.BASELINE_CENTER);
+            GridPane.setHalignment(pawn, CENTER);
             grid.add(pawn, 7, 3);
         }
         for (int i = 1; i < 8; i++) {
@@ -206,6 +207,7 @@ class RGOUConfigurator {
             );
             pawn.setFont(pawnFont);
             pawn.setId("BluePawn" + i);
+            GridPane.setHalignment(pawn, CENTER);
             grid.add(pawn, 7, 5);
         }
     }

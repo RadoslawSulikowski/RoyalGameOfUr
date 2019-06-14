@@ -38,11 +38,18 @@ class RoyalGameOfUr {
     GridPane newGame() {
 
         configurator.configure();
-        ((Button) (grid.lookup("#RollButton"))).setOnAction((e) -> rollButtonAction());
+        ((Button) (grid.lookup("#RollButton"))).setOnAction((e) -> {
+            rollButtonAction();
+        });
         ((Button) (grid.lookup("#MainMenuButton"))).setOnAction((e) -> mainMenuButtonAction());
         ((Button) (grid.lookup("#NewGameButton"))).setOnAction((e) -> newGameButtonAction());
         setOnActionAllPawns();
         setWhichPlayerTurn("GREEN");
+        grid.setOnMouseMoved(e -> {
+            if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+                computerMove();
+            }
+        });
 
         return grid;
 
@@ -72,6 +79,9 @@ class RoyalGameOfUr {
                         if (ifMove && whichPlayerTurn.equals("GREEN")) {
                             greenPawnMove((Pawn) node);
                         }
+                        /*if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+                            computerMove();
+                        }*/
                     });
                 }
                 if (((Pawn) node).getPawnColor().equals("BLUE") && !onePlayerGame) {
@@ -99,9 +109,6 @@ class RoyalGameOfUr {
                 if (whichPlayerTurn.equals("GREEN")) {
 
                     setWhichPlayerTurn("BLUE");
-                    if(onePlayerGame){
-                        computerMove();
-                    }
                 } else {
                     setWhichPlayerTurn("GREEN");
                 }
@@ -171,6 +178,7 @@ class RoyalGameOfUr {
     }
 
     private void firstMovePlayerSelection() {
+        ((Label) grid.lookup("#WarningsLabel")).setText("");
 
         if (whichPlayerTurn.equals("GREEN") && greenPlayerDrawResult == 0) {
             greenPlayerDrawResult = convertCoinsIntoPoints(coinsToss());
@@ -200,25 +208,25 @@ class RoyalGameOfUr {
 
                 setWhichPlayerTurn("GREEN");
 
-            }
-            if (bluePlayerDrawResult > greenPlayerDrawResult) {
+            } else if (bluePlayerDrawResult > greenPlayerDrawResult) {
                 setWhichPlayerTurn("BLUE");
                 firstMovePlayerSelected = true;
                 setIfMove(false);
                 ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                         + "\nBlue player starts game");
-                if (onePlayerGame) {
-                    computerMove();
-
-                }
-            }
-            if (bluePlayerDrawResult < greenPlayerDrawResult) {
+            } else {
                 setWhichPlayerTurn("GREEN");
                 firstMovePlayerSelected = true;
                 setIfMove(false);
                 ((Label) grid.lookup("#WarningsLabel")).setText(((Label) grid.lookup("#WarningsLabel")).getText()
                         + "\nGreen player starts game");
             }
+        }
+
+        if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+            fieldsToMove = convertCoinsIntoPoints(coinsToss());
+            ((Label) grid.lookup("#WarningsLabel")).setText("Blue draws " + fieldsToMove + " points.\n" +
+                    "Waiting for Blue's move.");
         }
     }
 
@@ -264,9 +272,6 @@ class RoyalGameOfUr {
                     if (!((Field) node).getIsHighlighted()) {
 
                         setWhichPlayerTurn("BLUE");
-                        if (onePlayerGame) {
-                            computerMove();
-                        }
                     }
                 }
             }
@@ -285,9 +290,6 @@ class RoyalGameOfUr {
                 endOfGameAction();
             } else {
                 setWhichPlayerTurn("BLUE");
-                if (onePlayerGame) {
-                    computerMove();
-                }
             }
         }
         if (greenPawnsAtFinish != 7) {
@@ -303,8 +305,6 @@ class RoyalGameOfUr {
                     ((Field) node).setIsBusyByBlue(true);
                     if (!((Field) node).getIsHighlighted()) {
                         setWhichPlayerTurn("GREEN");
-                    } else if (onePlayerGame) {
-                        computerMove();
                     }
                 }
             }
@@ -373,7 +373,11 @@ class RoyalGameOfUr {
 
             }
         }
-
+        if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+            fieldsToMove = convertCoinsIntoPoints(coinsToss());
+            ((Label) grid.lookup("#WarningsLabel")).setText("Blue draws " + fieldsToMove + " points.\n" +
+                    "Waiting for Blue's move.");
+        }
     }
 
     private void bluePawnMove(Pawn pawn) {
@@ -420,6 +424,9 @@ class RoyalGameOfUr {
             }
         }
 
+        /*if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+            computerMove();
+        }*/
     }
 
     private void endOfGameAction() {
@@ -462,10 +469,17 @@ class RoyalGameOfUr {
         return result;
     }
 
+    private void delay(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void computerMove() {
-        fieldsToMove = convertCoinsIntoPoints(coinsToss());
-        if(ifPlayerMoveImpossible()) {
+        delay(2);
+        if (ifPlayerMoveImpossible()) {
 
             ((Label) grid.lookup("#WarningsLabel")).setText(whichPlayerTurn + " player has no possible moves.\n" +
                     whichPlayerTurn + " lost his turn.");
