@@ -423,10 +423,11 @@ class RoyalGameOfUr {
 
             }
         }
-
-        /*if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
-            computerMove();
-        }*/
+        if (onePlayerGame && whichPlayerTurn.equals("BLUE")) {
+            fieldsToMove = convertCoinsIntoPoints(coinsToss());
+            ((Label) grid.lookup("#WarningsLabel")).setText("Blue draws " + fieldsToMove + " points.\n" +
+                    "Waiting for Blue's move.");
+        }
     }
 
     private void endOfGameAction() {
