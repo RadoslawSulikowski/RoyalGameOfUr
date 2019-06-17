@@ -1,4 +1,4 @@
-package com.kodilla;
+package com.kodilla.royalgameofur;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -187,28 +187,27 @@ class RGOUConfigurator {
     private void addPawns() {
         Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
         for (int i = 1; i < 8; i++) {
-            Pawn pawn = new Pawn("GREEN");
-            pawn.setStyle(
+            Pawn greenPawn = new Pawn("GREEN");
+            greenPawn.setStyle(
                     "-fx-border-color: #044505;" +
                             "-fx-background-color: #0BBF0E;" +
                             "-fx-border-width: 5;"
             );
-            pawn.setFont(pawnFont);
-            pawn.setId("GreenPawn" + i);
-            GridPane.setHalignment(pawn, CENTER);
-            grid.add(pawn, 7, 3);
-        }
-        for (int i = 1; i < 8; i++) {
-            Pawn pawn = new Pawn("BLUE");
-            pawn.setStyle(
+            greenPawn.setFont(pawnFont);
+            greenPawn.setId("GreenPawn" + i);
+            GridPane.setHalignment(greenPawn, CENTER);
+            grid.add(greenPawn, 7, 3);
+
+            Pawn bluePawn = new Pawn("BLUE");
+            bluePawn.setStyle(
                     "-fx-border-color: #100D5E;" +
                             "-fx-background-color: #117EEB;" +
                             "-fx-border-width: 5;"
             );
-            pawn.setFont(pawnFont);
-            pawn.setId("BluePawn" + i);
-            GridPane.setHalignment(pawn, CENTER);
-            grid.add(pawn, 7, 5);
+            bluePawn.setFont(pawnFont);
+            bluePawn.setId("BluePawn" + i);
+            GridPane.setHalignment(bluePawn, CENTER);
+            grid.add(bluePawn, 7, 5);
         }
     }
 

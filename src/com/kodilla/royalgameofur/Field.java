@@ -1,4 +1,4 @@
-package com.kodilla;
+package com.kodilla.royalgameofur;
 
 
 import javafx.scene.Node;

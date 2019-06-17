@@ -1,5 +1,6 @@
-package com.kodilla;
+package com.kodilla.royalgameofur;
 
+import com.kodilla.MainMenu;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,18 +10,18 @@ import javafx.scene.text.FontWeight;
 
 import static javafx.geometry.HPos.CENTER;
 
-class InstructionMenu {
+public class InstructionMenu {
     private Image page1 = new Image("file:src/com/resources/page1.png", true);
     private Image page2 = new Image("file:src/com/resources/page2.png", true);
 
     private GridPane grid;
     private Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
-    InstructionMenu(GridPane grid) {
+    public InstructionMenu(GridPane grid) {
         this.grid = grid;
     }
 
-    GridPane newInstruction() {
+    public GridPane newInstruction() {
         setRowsAndColumns();
         addButtons();
         addPage();

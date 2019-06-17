@@ -1,5 +1,6 @@
-package com.kodilla;
+package com.kodilla.royalgameofur;
 
+import com.kodilla.MainMenu;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -8,17 +9,17 @@ import javafx.scene.text.FontWeight;
 
 import static javafx.scene.paint.Color.WHITE;
 
-class RGOUMenu {
+public class RGOUMenu {
 
     private GridPane grid;
     private double numberOfRows = 12;
     private double numberOfColumns = 5;
 
-    RGOUMenu(GridPane grid) {
+    public RGOUMenu(GridPane grid) {
         this.grid = grid;
     }
 
-    GridPane newMenu() {
+    public GridPane newMenu() {
 
         setRowsAndColumns();
         addLabels();
