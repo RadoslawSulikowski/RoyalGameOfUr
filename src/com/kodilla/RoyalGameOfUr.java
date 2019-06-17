@@ -360,8 +360,8 @@ class RoyalGameOfUr {
                 }
 
                 if (((Field) node).getIsBusyByBlue() && !((Field) node).getIsHighlighted()) {
-                    setConstraints(((Field) node).getOpponentPawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 5);
-                    (((Field) node).getOpponentPawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
+                    setConstraints(((Field) node).getBluePawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 5);
+                    (((Field) node).getBluePawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
                     setPawnTextWithNumberOfPawnsOnPosition(++bluePawnsOnStart, 1, "BLUE");
                     setFieldFreeOverGreenPawn(pawn.getPosition());
                     pawn.setPosition(pawn.getPosition() + fieldsToMove);
@@ -410,8 +410,8 @@ class RoyalGameOfUr {
                     ((Label) grid.lookup("#WarningsLabel")).setText("You can't knock pawn on highlighted field");
                 }
                 if (((Field) node).getIsBusyByGreen() && !((Field) node).getIsHighlighted()) {
-                    setConstraints(((Field) node).getOpponentPawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 3);
-                    (((Field) node).getOpponentPawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
+                    setConstraints(((Field) node).getGreenPawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 3);
+                    (((Field) node).getGreenPawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
                     setPawnTextWithNumberOfPawnsOnPosition(++greenPawnsOnStart, 1, "GREEN");
                     setFieldFreeOverBluePawn(pawn.getPosition());
                     pawn.setPosition(pawn.getPosition() + fieldsToMove);

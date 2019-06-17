@@ -14,6 +14,10 @@ class Field extends ImageView {
     private int fieldNumberForGreen;
     private int fieldNumberForBlue;
 
+    Field(Image image) {
+        super(image);
+    }
+
     boolean getIsHighlighted() {
         return isHighlighted;
     }
@@ -56,14 +60,21 @@ class Field extends ImageView {
         isBusyByGreen = busy;
     }
 
-    Field(Image image) {
-        super(image);
-    }
 
-    Pawn getOpponentPawnFromField(GridPane grid, int fieldNumber) {
+    Pawn getBluePawnFromField(GridPane grid, int fieldNumber) {
 
         for (Node node : grid.getChildren()) {
-            if (node instanceof Pawn && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
+            if (node instanceof Pawn && (((Pawn) node).getPawnColor().equals("BLUE")) && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
+                return (Pawn) node;
+            }
+        }
+        return null;
+    }
+
+    Pawn getGreenPawnFromField(GridPane grid, int fieldNumber) {
+
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Pawn && (((Pawn) node).getPawnColor().equals("GREEN")) && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
                 return (Pawn) node;
             }
         }
