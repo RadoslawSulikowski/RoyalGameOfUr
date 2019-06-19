@@ -39,11 +39,9 @@ class RoyalGameOfUr {
     GridPane newGame() {
 
         configurator.configure();
-        ((Button) (grid.lookup("#RollButton"))).setOnAction((e) -> {
-            rollButtonAction();
-        });
-        ((Button) (grid.lookup("#MainMenuButton"))).setOnAction((e) -> mainMenuButtonAction());
-        ((Button) (grid.lookup("#NewGameButton"))).setOnAction((e) -> newGameButtonAction());
+        ((Button) (grid.lookup("#RollButton"))).setOnAction(e -> rollButtonAction());
+        ((Button) (grid.lookup("#MainMenuButton"))).setOnAction(e -> mainMenuButtonAction());
+        ((Button) (grid.lookup("#NewGameButton"))).setOnAction(e -> newGameButtonAction());
         setOnActionAllPawns();
         setWhichPlayerTurn("GREEN");
         grid.setOnMouseMoved(e -> {
