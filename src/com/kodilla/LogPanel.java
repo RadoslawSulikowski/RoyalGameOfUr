@@ -8,8 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -86,14 +84,11 @@ class LogPanel {
 
 
     private void addLabels() {
-        Font labelsFont25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
-        Font labelsFont20 = Font.font("ALGERIAN", FontWeight.BOLD, 20);
-        Font labelsFont15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
 
         Label logPanelLabel = new Label();
         logPanelLabel.setText("LOG PANEL");
         logPanelLabel.setId("LogPanelLabel");
-        logPanelLabel.setFont(labelsFont25);
+        logPanelLabel.setFont(FONT25);
         logPanelLabel.setMinWidth(300);
         logPanelLabel.setTextFill(WHITE);
         logPanelLabel.setAlignment(Pos.CENTER);
@@ -103,7 +98,7 @@ class LogPanel {
         Label loginLabel = new Label();
         loginLabel.setText("LOGIN");
         loginLabel.setId("LoginLabel");
-        loginLabel.setFont(labelsFont20);
+        loginLabel.setFont(FONT20);
         loginLabel.setMinWidth(300);
         loginLabel.setTextFill(WHITE);
         loginLabel.setAlignment(Pos.CENTER);
@@ -113,7 +108,7 @@ class LogPanel {
         Label LoginWarningsLabel = new Label();
         LoginWarningsLabel.setText("");
         LoginWarningsLabel.setId("LoginWarningsLabel");
-        LoginWarningsLabel.setFont(labelsFont15);
+        LoginWarningsLabel.setFont(FONT15);
         LoginWarningsLabel.setMinWidth(300);
         LoginWarningsLabel.setWrapText(true);
         LoginWarningsLabel.setTextFill(WHITE);
@@ -124,7 +119,7 @@ class LogPanel {
         Label registrationLabel = new Label();
         registrationLabel.setText("OR REGISTER");
         registrationLabel.setId("RegistrationLabel");
-        registrationLabel.setFont(labelsFont20);
+        registrationLabel.setFont(FONT20);
         registrationLabel.setMinWidth(300);
         registrationLabel.setTextFill(WHITE);
         registrationLabel.setAlignment(Pos.CENTER);
@@ -134,7 +129,7 @@ class LogPanel {
         Label registrationWarningsLabel = new Label();
         registrationWarningsLabel.setText("");
         registrationWarningsLabel.setId("RegistrationWarningsLabel");
-        registrationWarningsLabel.setFont(labelsFont15);
+        registrationWarningsLabel.setFont(FONT15);
         registrationWarningsLabel.setMinWidth(600);
         registrationWarningsLabel.setWrapText(true);
         registrationWarningsLabel.setTextFill(WHITE);
@@ -145,7 +140,7 @@ class LogPanel {
         Label playAsGuestLabel = new Label();
         playAsGuestLabel.setText("OR PLAY AS GUEST");
         playAsGuestLabel.setId("PlayAsGuestLabel");
-        playAsGuestLabel.setFont(labelsFont20);
+        playAsGuestLabel.setFont(FONT20);
         playAsGuestLabel.setMinWidth(300);
         playAsGuestLabel.setTextFill(WHITE);
         playAsGuestLabel.setAlignment(Pos.CENTER);
@@ -166,6 +161,7 @@ class LogPanel {
         grid.add(loginPasswordField, 3, 2);
 
         TextField registrationPlayerNameField = new TextField();
+        registrationPlayerNameField.setText("");
         registrationPlayerNameField.setPromptText("Player Name");
         registrationPlayerNameField.setId("RegistrationPlayerNameField");
         registrationPlayerNameField.setMaxWidth(250);
@@ -173,6 +169,7 @@ class LogPanel {
         grid.add(registrationPlayerNameField, 1, 6);
 
         PasswordField registrationPasswordField = new PasswordField();
+        registrationPasswordField.setText("");
         registrationPasswordField.setPromptText("Password");
         registrationPasswordField.setId("RegistrationPasswordField");
         registrationPasswordField.setMaxWidth(250);
@@ -180,6 +177,7 @@ class LogPanel {
         grid.add(registrationPasswordField, 2, 6);
 
         PasswordField confirmRegistrationPasswordField = new PasswordField();
+        confirmRegistrationPasswordField.setText("");
         confirmRegistrationPasswordField.setPromptText("Confirm Password");
         confirmRegistrationPasswordField.setId("ConfirmRegistrationPasswordField");
         confirmRegistrationPasswordField.setMaxWidth(250);
@@ -188,17 +186,16 @@ class LogPanel {
     }
 
     private void addButtons() {
-        Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
         Button playAsGuestButton = new Button("PLAY AS GUEST");
         playAsGuestButton.setId("PlayAsGuestButton");
-        playAsGuestButton.setFont(buttonFont);
+        playAsGuestButton.setFont(FONT30);
         playAsGuestButton.setOnAction((e) -> playAsGuestButtonAction());
         grid.add(playAsGuestButton, 2, 10);
 
         Button loginButton = new Button("LOGIN");
         loginButton.setId("LoginButton");
-        loginButton.setFont(buttonFont);
+        loginButton.setFont(FONT30);
         loginButton.setOnAction((e) -> loginButtonAction());
         GridPane.setHalignment(loginButton, HPos.CENTER);
         GridPane.setValignment(loginButton, VPos.BASELINE);
@@ -206,7 +203,7 @@ class LogPanel {
 
         Button registerButton = new Button("REGISTER");
         registerButton.setId("RegisterButton");
-        registerButton.setFont(buttonFont);
+        registerButton.setFont(FONT30);
         registerButton.setOnAction((e) -> registerButtonAction());
         GridPane.setHalignment(registerButton, HPos.CENTER);
         grid.add(registerButton, 2, 7);
@@ -223,6 +220,8 @@ class LogPanel {
         String inputLoginPlayer = ((TextField) (grid.lookup("#LoginPlayerNameField"))).getText();
         String inputLoginPassword = encrypt(((TextField) (grid.lookup("#LoginPasswordField"))).getText());
         boolean rightPlayerAndPassword = false;
+
+        ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("");
 
         for (Map.Entry entry : GamePlatform.getPlayersMap().entrySet()) {
             if (entry.getKey().equals(inputLoginPlayer) && entry.getValue().equals(inputLoginPassword)) {
@@ -247,18 +246,21 @@ class LogPanel {
         String inputRegistrationPassword = encrypt(((TextField) (grid.lookup("#RegistrationPasswordField"))).getText());
         String inputConfirmPassword = encrypt(((TextField) (grid.lookup("#ConfirmRegistrationPasswordField"))).getText());
 
-        boolean uniquePlayerName = false;
-        if (getPlayersMap().entrySet().size() == 0) {
-            uniquePlayerName = true;
-        }
+        ((Label) (grid.lookup("#LoginWarningsLabel"))).setText("");
+
+        boolean notUniquePlayerName = false;
         for (Map.Entry entry : getPlayersMap().entrySet()) {
-            if (!(entry.getKey().equals(inputRegistrationPlayer))) {
-                uniquePlayerName = true;
+            if (entry.getKey().equals(inputRegistrationPlayer)) {
+                notUniquePlayerName = true;
             }
         }
-        if (inputRegistrationPlayer.equals("") || inputRegistrationPassword.equals("") || inputConfirmPassword.equals("")) {
-            ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("All fields must be filled out");
-        } else if (!uniquePlayerName) {
+        if (inputRegistrationPlayer.equals("")
+                || ((TextField) (grid.lookup("#RegistrationPasswordField"))).getText().equals("")
+                || (((TextField) (grid.lookup("#ConfirmRegistrationPasswordField"))).getText().equals(""))) {
+            ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("All fields must be filled in");
+        } else if ((inputRegistrationPlayer.toUpperCase()).equals("GUEST")) {
+            ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Player Name GUEST is reserved for... GUESTS!");
+        } else if (notUniquePlayerName) {
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Player Name already exist!");
         } else if (!inputRegistrationPassword.equals(inputConfirmPassword)) {
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Password and its confirmation are different!");
@@ -266,6 +268,9 @@ class LogPanel {
             getPlayersMap().put(inputRegistrationPlayer, inputConfirmPassword);
             saveMap(getPlayersMap(), getPlayersMapFile());
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Registration SUCCESS!\nNow you can login with your player name and password.");
+            ((TextField) (grid.lookup("#RegistrationPlayerNameField"))).setText("");
+            ((TextField) (grid.lookup("#RegistrationPasswordField"))).setText("");
+            ((TextField) (grid.lookup("#ConfirmRegistrationPasswordField"))).setText("");
         }
 
 

@@ -7,15 +7,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
+import static com.kodilla.GamePlatform.*;
 import static javafx.scene.paint.Color.WHITE;
 
 public class MainMenu {
     private GridPane grid;
     private double numberOfRows = 10;
-    private double numberOfColumns = 5;
+    private double numberOfColumns = 9;
 
     public MainMenu(GridPane grid) {
         this.grid = grid;
@@ -59,51 +58,57 @@ public class MainMenu {
     }
 
     private void addLabels() {
-        Font labelsFont25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
-        Font labelsFont10 = Font.font("ALGERIAN", FontWeight.BOLD, 10);
 
         Label mainMenuLabel = new Label();
         mainMenuLabel.setText("Select Game:");
         mainMenuLabel.setId("MainMenuLabel");
-        mainMenuLabel.setFont(labelsFont25);
+        mainMenuLabel.setFont(FONT25);
         mainMenuLabel.setMinWidth(300);
         mainMenuLabel.setTextFill(WHITE);
-        grid.add(mainMenuLabel, 2, 2);
+        grid.add(mainMenuLabel, 4, 2);
 
         Label royalGameOfUrLabel = new Label();
         royalGameOfUrLabel.setText("Royal Game Of Ur:");
         royalGameOfUrLabel.setId("RoyalGameOfUr");
-        royalGameOfUrLabel.setFont(labelsFont25);
+        royalGameOfUrLabel.setFont(FONT20);
         royalGameOfUrLabel.setMinWidth(300);
         royalGameOfUrLabel.setTextFill(WHITE);
-        grid.add(royalGameOfUrLabel, 1, 4);
+        grid.add(royalGameOfUrLabel, 2, 4);
 
         Label logInfoLabel = new Label();
         logInfoLabel.setText("You're playing as " + GamePlatform.getPlayerName());
         logInfoLabel.setId("LogLabel");
-        logInfoLabel.setFont(labelsFont10);
+        logInfoLabel.setFont(FONT15);
         logInfoLabel.setMinWidth(300);
+        logInfoLabel.setWrapText(true);
         logInfoLabel.setTextFill(WHITE);
-        logInfoLabel.setAlignment(Pos.CENTER_LEFT);
-        GridPane.setHalignment(logInfoLabel, HPos.LEFT);
-        grid.add(logInfoLabel, 4, 0);
+        logInfoLabel.setAlignment(Pos.CENTER_RIGHT);
+        GridPane.setHalignment(logInfoLabel, HPos.RIGHT);
+        grid.add(logInfoLabel, 4, 0, 4, 1);
     }
 
     private void addButtons() {
-        Font buttonFont30 = Font.font("ALGERIAN", FontWeight.BOLD, 30);
-        Font buttonFont10 = Font.font("ALGERIAN", FontWeight.BOLD, 10);
 
-        Button royalGameOfUrButton = new Button("Play Game");
-        royalGameOfUrButton.setId("PlayRGOUButton");
-        royalGameOfUrButton.setFont(buttonFont30);
-        royalGameOfUrButton.setOnAction((e) -> royalGameOfUrButtonAction());
-        grid.add(royalGameOfUrButton, 2, 4);
+        Button royalGameOfUrPlayGameButton = new Button("Play Game");
+        royalGameOfUrPlayGameButton.setId("RGOUPlayButton");
+        royalGameOfUrPlayGameButton.setFont(FONT20);
+        royalGameOfUrPlayGameButton.setOnAction((e) -> royalGameOfUrPlayGameButtonAction());
+        GridPane.setHalignment(royalGameOfUrPlayGameButton, HPos.LEFT);
+        grid.add(royalGameOfUrPlayGameButton, 4, 4);
 
-        Button instructionButton = new Button("Instruction PL");
-        instructionButton.setId("InstructionButton");
-        instructionButton.setFont(buttonFont30);
-        instructionButton.setOnAction((e) -> instructionButtonAction());
-        grid.add(instructionButton, 3, 4);
+        Button royalGameOfUrInstructionButton = new Button("Instruction PL");
+        royalGameOfUrInstructionButton.setId("RGOUInstructionButton");
+        royalGameOfUrInstructionButton.setFont(FONT20);
+        GridPane.setHalignment(royalGameOfUrInstructionButton, HPos.LEFT);
+        royalGameOfUrInstructionButton.setOnAction((e) -> royalGameOfUrInstructionButtonAction());
+        grid.add(royalGameOfUrInstructionButton, 5, 4, 2, 1);
+
+        Button royalGameOfUrHighScoresButton = new Button("HighScores");
+        royalGameOfUrHighScoresButton.setId("RGOUHighScoresButton");
+        royalGameOfUrHighScoresButton.setFont(FONT20);
+        GridPane.setHalignment(royalGameOfUrHighScoresButton, HPos.RIGHT);
+        royalGameOfUrHighScoresButton.setOnAction((e) -> royalGameOfUrHighScoresButtonAction());
+        grid.add(royalGameOfUrHighScoresButton, 6, 4);
 
         Button logButton = new Button();
         if (GamePlatform.getLoggedIn()) {
@@ -112,23 +117,10 @@ public class MainMenu {
             logButton.setText("LOGIN");
         }
         logButton.setId("LogButton");
-        logButton.setFont(buttonFont10);
+        logButton.setFont(FONT15);
         logButton.setOnAction((e) -> logButtonAction());
-        GridPane.setHalignment(logButton, HPos.RIGHT);
-        grid.add(logButton, 4, 0);
-    }
-
-
-    private void royalGameOfUrButtonAction() {
-        clearGrid();
-        RGOUMenu rgouMenu = new RGOUMenu(grid);
-        grid = rgouMenu.newMenu();
-    }
-
-    private void instructionButtonAction() {
-        clearGrid();
-        InstructionMenu menu = new InstructionMenu(grid);
-        grid = menu.newInstruction();
+        GridPane.setHalignment(logButton, HPos.CENTER);
+        grid.add(logButton, 8, 0);
     }
 
     private void logButtonAction() {
@@ -144,4 +136,21 @@ public class MainMenu {
             grid = logPanel.newLogPanel();
         }
     }
+
+    private void royalGameOfUrPlayGameButtonAction() {
+        clearGrid();
+        RGOUMenu rgouMenu = new RGOUMenu(grid);
+        grid = rgouMenu.newMenu();
+    }
+
+    private void royalGameOfUrInstructionButtonAction() {
+        clearGrid();
+        InstructionMenu menu = new InstructionMenu(grid);
+        grid = menu.newInstruction();
+    }
+
+    private void royalGameOfUrHighScoresButtonAction() {
+
+    }
+
 }

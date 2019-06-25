@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -21,6 +23,11 @@ public class GamePlatform extends Application {
     private static HashMap<String, String> highScoresMap = new HashMap<>();
     private static File playersMapFile = new File("players");
     private static File highScoresMapFile = new File("highScores");
+
+    public static final Font FONT15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
+    public static final Font FONT20 = Font.font("ALGERIAN", FontWeight.BOLD, 20);
+    public static final Font FONT25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
+    public static final Font FONT30 = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
     private void addRowsAndColumns() {
         for (int i = 0; i < 150; i++) {
@@ -82,7 +89,7 @@ public class GamePlatform extends Application {
         }
     }
 
-    public static File getPlayersMapFile() {
+    static File getPlayersMapFile() {
         return playersMapFile;
     }
 

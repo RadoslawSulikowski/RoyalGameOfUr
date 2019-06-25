@@ -5,9 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
+import static com.kodilla.GamePlatform.*;
 import static javafx.geometry.HPos.CENTER;
 import static javafx.scene.paint.Color.WHITE;
 
@@ -24,6 +23,102 @@ class RGOUConfigurator {
     private Image imageGreenHomeBaseField = new Image("file:src/com/resources/greenHomeBaseField.png", true);
     private Image imageBlueFinalBaseField = new Image("file:src/com/resources/blueFinalBaseField.png", true);
     private Image imageGreenFinalBaseField = new Image("file:src/com/resources/greenFinalBaseField.png", true);
+
+    Label whichTurnLabel = createWhichTurnLabel();
+    Label whichActionLabel = createWhichActionLabel();
+    Label warningsLabel = createWarningsLabelLabel();
+    Label gamesToPlayLabel = createGamesToPlayLabel();
+    Label scoresLabel = createScoresLabel();
+    Button rollButton = createRollButton();
+    Button mainMenuButton = createMainMenuButton();
+    Button newGameButton = createNewGameButton();
+    Button nextGameButton = createNextRoundButton();
+
+    private Label createWhichTurnLabel() {
+        Label whichTurnLabel = new Label();
+        whichTurnLabel.setId("WhichTurnLabel");
+        whichTurnLabel.setFont(FONT25);
+        whichTurnLabel.setMinWidth(300);
+        whichTurnLabel.setTextFill(WHITE);
+        return whichTurnLabel;
+    }
+
+    private Label createWhichActionLabel() {
+        Label whichActionLabel = new Label();
+        whichActionLabel.setId("WhichActionLabel");
+        whichActionLabel.setFont(FONT25);
+        whichActionLabel.setMinWidth(300);
+        whichActionLabel.setTextFill(WHITE);
+        whichActionLabel.setWrapText(true);
+        whichActionLabel.setText("ROLL to draw who will start");
+        return whichActionLabel;
+    }
+
+    private Label createWarningsLabelLabel() {
+        Label warningsLabel = new Label();
+        warningsLabel.setId("WarningsLabel");
+        warningsLabel.setFont(FONT15);
+        warningsLabel.setMinWidth(600);
+        warningsLabel.setTextFill(WHITE);
+        warningsLabel.setWrapText(true);
+        warningsLabel.setAlignment(Pos.BOTTOM_LEFT);
+        return warningsLabel;
+    }
+
+    private Label createGamesToPlayLabel() {
+        Label gamesToPlay = new Label();
+        gamesToPlay.setId("GameStatusLabel");
+        gamesToPlay.setFont(FONT25);
+        gamesToPlay.setMinWidth(300);
+        gamesToPlay.setTextFill(WHITE);
+        gamesToPlay.setWrapText(true);
+        gamesToPlay.setAlignment(Pos.BASELINE_LEFT);
+        return gamesToPlay;
+    }
+
+    private Label createScoresLabel() {
+        Label scoresLabel = new Label();
+        scoresLabel.setId("ScoresLabel");
+        scoresLabel.setFont(FONT25);
+        scoresLabel.setMinWidth(600);
+        scoresLabel.setTextFill(WHITE);
+        scoresLabel.setWrapText(true);
+        scoresLabel.setAlignment(Pos.BASELINE_CENTER);
+        return scoresLabel;
+    }
+
+    private Button createRollButton() {
+        Button roll = new Button("ROLL!!");
+        roll.setId("RollButton");
+        roll.setPrefWidth(300);
+        roll.setFont(FONT30);
+        return roll;
+    }
+
+    private Button createMainMenuButton() {
+        Button mainMenuButton = new Button("Main Menu");
+        mainMenuButton.setId("MainMenuButton");
+        mainMenuButton.setFont(FONT30);
+        mainMenuButton.setMinWidth(230);
+        return mainMenuButton;
+    }
+
+    private Button createNewGameButton() {
+        Button newGameButton = new Button("New game");
+        newGameButton.setId("NewGameButton");
+        newGameButton.setFont(FONT30);
+        newGameButton.setMinWidth(230);
+        return newGameButton;
+    }
+
+    private Button createNextRoundButton() {
+
+        Button nextRoundButton = new Button("Next round");
+        nextRoundButton.setId("NextRoundButton");
+        nextRoundButton.setFont(FONT30);
+        nextRoundButton.setMinWidth(230);
+        return nextRoundButton;
+    }
 
 
     private GridPane grid;
@@ -185,7 +280,6 @@ class RGOUConfigurator {
     }
 
     private void addPawns() {
-        Font pawnFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
         for (int i = 1; i < 8; i++) {
             Pawn greenPawn = new Pawn("GREEN");
             greenPawn.setStyle(
@@ -193,7 +287,7 @@ class RGOUConfigurator {
                             "-fx-background-color: #0BBF0E;" +
                             "-fx-border-width: 5;"
             );
-            greenPawn.setFont(pawnFont);
+            greenPawn.setFont(FONT30);
             greenPawn.setId("GreenPawn" + i);
             GridPane.setHalignment(greenPawn, CENTER);
             grid.add(greenPawn, 7, 3);
@@ -204,41 +298,11 @@ class RGOUConfigurator {
                             "-fx-background-color: #117EEB;" +
                             "-fx-border-width: 5;"
             );
-            bluePawn.setFont(pawnFont);
+            bluePawn.setFont(FONT30);
             bluePawn.setId("BluePawn" + i);
             GridPane.setHalignment(bluePawn, CENTER);
             grid.add(bluePawn, 7, 5);
         }
-    }
-
-    private void addLabels() {
-        Font labelsFont25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
-        Font labelsFont15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
-
-        Label whichTurnLabel = new Label();
-        whichTurnLabel.setId("WhichTurnLabel");
-        whichTurnLabel.setFont(labelsFont25);
-        whichTurnLabel.setMinWidth(300);
-        whichTurnLabel.setTextFill(WHITE);
-        grid.add(whichTurnLabel, 3, 1);
-
-        Label whichActionLabel = new Label();
-        whichActionLabel.setId("WhichActionLabel");
-        whichActionLabel.setFont(labelsFont25);
-        whichActionLabel.setMinWidth(300);
-        whichActionLabel.setTextFill(WHITE);
-        whichActionLabel.setWrapText(true);
-        whichActionLabel.setText("ROLL to draw who will start");
-        grid.add(whichActionLabel, 6, 1);
-
-        Label warningsLabel = new Label();
-        warningsLabel.setId("WarningsLabel");
-        warningsLabel.setFont(labelsFont15);
-        warningsLabel.setMinWidth(600);
-        warningsLabel.setTextFill(WHITE);
-        warningsLabel.setWrapText(true);
-        warningsLabel.setAlignment(Pos.BOTTOM_LEFT);
-        grid.add(warningsLabel, 3, 2);
     }
 
     private void addCoins() {
@@ -248,24 +312,19 @@ class RGOUConfigurator {
         }
     }
 
+    private void addLabels() {
+        grid.add(gamesToPlayLabel, 1, 0);
+        grid.add(scoresLabel, 5, 0);
+        grid.add(whichTurnLabel, 3, 1);
+        grid.add(whichActionLabel, 6, 1);
+        grid.add(warningsLabel, 3, 2);
+    }
+
     private void addButtons() {
-        Font buttonFont = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
-        Button roll = new Button("ROLL!!");
-        roll.setId("RollButton");
-        roll.setPrefWidth(300);
-        roll.setFont(buttonFont);
-        grid.add(roll, 11, 2, 3, 1);
-
-        Button mainMenuButton = new Button("Main Menu");
-        mainMenuButton.setId("MainMenuButton");
-        mainMenuButton.setFont(buttonFont);
-        grid.add(mainMenuButton, 12, 4, 2, 1);
-
-        Button newGameButton = new Button("New game");
-        newGameButton.setId("NewGameButton");
-        newGameButton.setFont(buttonFont);
-        grid.add(newGameButton, 12, 5, 2, 1);
+        grid.add(rollButton, 11, 2, 3, 1);
+        grid.add(mainMenuButton, 12, 4, 3, 1);
+        grid.add(newGameButton, 12, 5, 3, 1);
     }
 
 }
