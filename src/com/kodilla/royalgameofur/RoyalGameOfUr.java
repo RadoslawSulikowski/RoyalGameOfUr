@@ -1,16 +1,19 @@
 package com.kodilla.royalgameofur;
 
+import com.kodilla.HighScore;
 import com.kodilla.MainMenu;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import java.util.Comparator;
 import java.util.Random;
 
 import static javafx.scene.layout.GridPane.setConstraints;
 import static javafx.scene.paint.Color.*;
 import static javafx.scene.paint.Color.SILVER;
+import static com.kodilla.GamePlatform.*;
 
 class RoyalGameOfUr {
 
@@ -154,18 +157,13 @@ class RoyalGameOfUr {
         setOnActionAllPawns();
         firstMovePlayerSelected = false;
         ifMove = false;
-        resetPawnsOnStartAndAtFinish();
-        bluePlayerDrawResult = 0;
-        greenPlayerDrawResult = 0;
-        fieldsToMove = 0;
-    }
-
-    private void resetPawnsOnStartAndAtFinish() {
-
         bluePawnsOnStart = 7;
         greenPawnsOnStart = 7;
         bluePawnsAtFinish = 0;
         greenPawnsAtFinish = 0;
+        bluePlayerDrawResult = 0;
+        greenPlayerDrawResult = 0;
+        fieldsToMove = 0;
     }
 
     private void resetFields() {
@@ -301,6 +299,34 @@ class RoyalGameOfUr {
         }
     }
 
+    private boolean ifFinalFieldFree(int finalPosition, String pawnColor) {
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Field
+                    && pawnColor.equals("GREEN")
+                    && ((Field) node).getFieldNumberForGreen() == finalPosition
+                    && ((((Field) node).getIsBusyByGreen()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByBlue())))) {
+                return false;
+            }
+            if (node instanceof Field
+                    && pawnColor.equals("BLUE")
+                    && ((Field) node).getFieldNumberForBlue() == finalPosition
+                    && ((((Field) node).getIsBusyByBlue()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByGreen())))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean ifPlayerMoveImpossible() {
+        boolean result = true;
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Pawn && ((Pawn) node).getPawnColor().equals(whichPlayerTurn) && ((Pawn) node).getPosition() != 18) {
+                result = result && !ifFinalFieldFree((((Pawn) node).getPosition() + fieldsToMove), whichPlayerTurn);
+            }
+        }
+        return result;
+    }
+
     private void putGreenPawnOnPosition(Pawn pawn) {
         if (pawn.getPosition() < 18) {
             for (Node node : grid.getChildren()) {
@@ -325,7 +351,7 @@ class RoyalGameOfUr {
             });
             if (greenPawnsAtFinish == 7) {
                 configurator.whichTurnLabel.setText("PLAYER GREEN");
-                endOfGameAction();
+                endOfRoundAction();
             } else {
                 setWhichPlayerTurn("BLUE");
             }
@@ -359,7 +385,7 @@ class RoyalGameOfUr {
             if (bluePawnsAtFinish == 7) {
                 configurator.whichTurnLabel.setText("PLAYER BLUE");
 
-                endOfGameAction();
+                endOfRoundAction();
             } else {
                 setWhichPlayerTurn("GREEN");
             }
@@ -468,80 +494,6 @@ class RoyalGameOfUr {
         }
     }
 
-    private void endOfGameAction() {
-
-        ++roundsPlayed;
-        if (bluePawnsAtFinish == 7) {
-            bluePoints += (bluePawnsAtFinish - greenPawnsAtFinish);
-        }
-        if (greenPawnsAtFinish == 7) {
-            greenPoints += (greenPawnsAtFinish - bluePawnsAtFinish);
-        }
-        if (roundsPlayed < roundsToPlay) {
-            configurator.whichActionLabel.setText(" WON THIS ROUND");
-            for (Node node : grid.getChildren()) {
-                if (node instanceof Button
-                        && !(((node)).getId().equals("MainMenuButton") || (node.getId().equals("NewGameButton")))) {
-                    ((Button) node).setOnAction((e) ->
-                            configurator.warningsLabel.setText("The round has finished!"));
-                }
-            }
-            grid.add(configurator.nextGameButton, 12, 3, 3, 1);
-            configurator.nextGameButton.setOnAction(e -> nextGameButtonAction());
-
-        } else {
-            configurator.whichActionLabel.setText("WON GAME");
-            for (Node node : grid.getChildren()) {
-                if (node instanceof Button
-                        && !(((node)).getId().equals("MainMenuButton") || (node.getId().equals("NewGameButton")))) {
-                    ((Button) node).setOnAction((e) ->
-                            configurator.warningsLabel.setText("The game has finished!"));
-                }
-            }
-        }
-
-
-        configurator.gamesToPlayLabel.setText("GAMES TO PLAY:    " + (roundsToPlay - roundsPlayed));
-        configurator.scoresLabel.setText("GREEN    " + greenPoints + " : " + bluePoints + "    BLUE");
-
-    }
-
-    private boolean ifFinalFieldFree(int finalPosition, String pawnColor) {
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Field
-                    && pawnColor.equals("GREEN")
-                    && ((Field) node).getFieldNumberForGreen() == finalPosition
-                    && ((((Field) node).getIsBusyByGreen()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByBlue())))) {
-                return false;
-            }
-            if (node instanceof Field
-                    && pawnColor.equals("BLUE")
-                    && ((Field) node).getFieldNumberForBlue() == finalPosition
-                    && ((((Field) node).getIsBusyByBlue()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByGreen())))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean ifPlayerMoveImpossible() {
-        boolean result = true;
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Pawn && ((Pawn) node).getPawnColor().equals(whichPlayerTurn) && ((Pawn) node).getPosition() != 18) {
-                result = result && !ifFinalFieldFree((((Pawn) node).getPosition() + fieldsToMove), whichPlayerTurn);
-            }
-        }
-        return result;
-    }
-
-    private void delay(int seconds) {
-        try {
-            Thread.sleep(seconds * 1000);
-        } catch(InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void computerMove() {
         delay(2);
         if (ifPlayerMoveImpossible()) {
@@ -563,5 +515,87 @@ class RoyalGameOfUr {
             }
         }
     }
+
+    private void endOfRoundAction() {
+
+        ++roundsPlayed;
+        if (bluePawnsAtFinish == 7) {
+            bluePoints += (bluePawnsAtFinish - greenPawnsAtFinish);
+        }
+        if (greenPawnsAtFinish == 7) {
+            greenPoints += (greenPawnsAtFinish - bluePawnsAtFinish);
+        }
+        if (roundsPlayed < roundsToPlay) {
+            configurator.whichActionLabel.setText(" WON THIS ROUND");
+            for (Node node : grid.getChildren()) {
+                if (node instanceof Button
+                        && !(((node)).getId().equals("MainMenuButton") || (node.getId().equals("NewGameButton")))) {
+                    ((Button) node).setOnAction((e) ->
+                            configurator.warningsLabel.setText("The round has finished!"));
+                }
+            }
+            grid.add(configurator.nextGameButton, 12, 3, 3, 1);
+            configurator.nextGameButton.setOnAction(e -> nextGameButtonAction());
+
+        } else {
+            endOfGameAction();
+        }
+
+
+        configurator.gamesToPlayLabel.setText("GAMES TO PLAY:    " + (roundsToPlay - roundsPlayed));
+        configurator.scoresLabel.setText("GREEN    " + greenPoints + " : " + bluePoints + "    BLUE");
+
+    }
+
+    private void endOfGameAction() {
+
+        configurator.whichActionLabel.setText("WON GAME");
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Button
+                    && !(((node)).getId().equals("MainMenuButton") || (node.getId().equals("NewGameButton")))) {
+                ((Button) node).setOnAction((e) ->
+                        configurator.warningsLabel.setText("The game has finished!"));
+            }
+        }
+        if(!getPlayerName().equals("GUEST") && onePlayerGame) {
+            HighScore highScore = new HighScore(getPlayerName(), (greenPoints - bluePoints));
+            if (roundsToPlay == 1) {
+                getOneGameHighScoresArrayList().add(highScore);
+
+                getOneGameHighScoresArrayList().sort((Comparator.comparingInt(HighScore::getScores)).reversed());
+                while (getOneGameHighScoresArrayList().size() > 15) {
+                    getOneGameHighScoresArrayList().remove(15);
+                }
+                saveList(getOneGameHighScoresArrayList(), getOneGameHighScoresListFile());
+            }
+            if (roundsToPlay == 3) {
+                getThreeGameHighScoresArrayList().add(highScore);
+                getThreeGameHighScoresArrayList().sort((Comparator.comparingInt(HighScore::getScores)).reversed());
+                while (getThreeGameHighScoresArrayList().size() > 15) {
+                    getThreeGameHighScoresArrayList().remove(15);
+                }
+                saveList(getThreeGameHighScoresArrayList(), getThreeGameHighScoresListFle());
+            }
+
+            if (roundsToPlay == 5) {
+                getFiveGameHighScoresArrayList().add(highScore);
+                getFiveGameHighScoresArrayList().sort((Comparator.comparingInt(HighScore::getScores)).reversed());
+                while (getFiveGameHighScoresArrayList().size() > 15) {
+                    getFiveGameHighScoresArrayList().remove(15);
+                }
+                saveList(getFiveGameHighScoresArrayList(), getFiveGameHighScoresListFile());
+            }
+        }
+
+    }
+
+    private void delay(int seconds) {
+        try {
+            Thread.sleep(seconds * 1000);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

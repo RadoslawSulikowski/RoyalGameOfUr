@@ -10,24 +10,30 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 
 public class GamePlatform extends Application {
-
-    private Image imageBack = new Image("file:src/com/resources/background.png", true);
-    private GridPane grid = new GridPane();
-    private static boolean loggedIn = false;
-    private static String playerName = "";
-    private static HashMap<String, String> playersMap = new HashMap<>();
-    private static HashMap<String, String> highScoresMap = new HashMap<>();
-    private static File playersMapFile = new File("players");
-    private static File highScoresMapFile = new File("highScores");
 
     public static final Font FONT15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
     public static final Font FONT20 = Font.font("ALGERIAN", FontWeight.BOLD, 20);
     public static final Font FONT25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
     public static final Font FONT30 = Font.font("ALGERIAN", FontWeight.BOLD, 30);
+
+    private static Map<String, String> playersMap = new HashMap<>();
+    private static List<HighScore> oneGameHighScoresArrayList = new ArrayList<>();
+    private static List<HighScore> threeGameHighScoresArrayList = new ArrayList<>();
+    private static List<HighScore> fiveGameHighScoresArrayList = new ArrayList<>();
+    private static File playersMapFile = new File("players");
+    private static File oneGameHighScoresListFile = new File("oneGameHighScoresListFile");
+    private static File threeGameHighScoresListFle = new File("threeGameHighScoresListFle");
+    private static File fiveGameHighScoresListFile = new File("fiveGameHighScoresListFile");
+
+
+    private Image imageBack = new Image("file:src/com/resources/background.png", true);
+    private GridPane grid = new GridPane();
+    private static boolean loggedIn = false;
+    private static String playerName = "";
 
     private void addRowsAndColumns() {
         for (int i = 0; i < 150; i++) {
@@ -42,7 +48,7 @@ public class GamePlatform extends Application {
         }
     }
 
-    static String getPlayerName() {
+    public static String getPlayerName() {
         return playerName;
     }
 
@@ -58,15 +64,49 @@ public class GamePlatform extends Application {
         GamePlatform.loggedIn = loggedIn;
     }
 
-    public static HashMap<String, String> getPlayersMap() {
+    static Map<String, String> getPlayersMap() {
         return playersMap;
     }
 
-    public static HashMap<String, String> getHighScoresMap() {
-        return highScoresMap;
+    public static List<HighScore> getOneGameHighScoresArrayList() {
+        return oneGameHighScoresArrayList;
     }
 
-    public static void saveMap(Map<String, String> map, File file) {
+    public static List<HighScore> getThreeGameHighScoresArrayList() {
+        return threeGameHighScoresArrayList;
+    }
+
+    public static List<HighScore> getFiveGameHighScoresArrayList() {
+        return fiveGameHighScoresArrayList;
+    }
+
+    public static File getOneGameHighScoresListFile() {
+        return oneGameHighScoresListFile;
+    }
+
+    public static File getThreeGameHighScoresListFle() {
+        return threeGameHighScoresListFle;
+    }
+
+    public static File getFiveGameHighScoresListFile() {
+        return fiveGameHighScoresListFile;
+    }
+
+    static File getPlayersMapFile() {
+        return playersMapFile;
+    }
+
+    public static void saveList(List list, File file) {
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+            oos.writeObject(list);
+            oos.close();
+        } catch(Exception e) {
+            System.out.println("Exception" + e);
+        }
+    }
+
+    static void saveMap(Map map, File file) {
         try {
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
             oos.writeObject(map);
@@ -76,12 +116,12 @@ public class GamePlatform extends Application {
         }
     }
 
-    private static void loadMap(HashMap<String, String> map, File file) {
+    private static void loadList(List list, File file) {
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
-            Object readMap = ois.readObject();
-            if (readMap instanceof HashMap) {
-                map.putAll((HashMap) readMap);
+            Object readList = ois.readObject();
+            if (readList instanceof List) {
+                list.addAll((List) readList);
             }
             ois.close();
         } catch(Exception e) {
@@ -89,19 +129,30 @@ public class GamePlatform extends Application {
         }
     }
 
-    static File getPlayersMapFile() {
-        return playersMapFile;
+    private static void loadMap(Map map, File file) {
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+            Object readMap = ois.readObject();
+            if (readMap instanceof Map) {
+                map.putAll((Map) readMap);
+            }
+            ois.close();
+        } catch(Exception e) {
+            System.out.println("Exception" + e);
+        }
     }
 
-    public static File getHighScoresMapFile() {
-        return highScoresMapFile;
-    }
 
     @Override
     public void start(Stage primaryStage) {
 
+        loadList(oneGameHighScoresArrayList, oneGameHighScoresListFile);
+        loadList(threeGameHighScoresArrayList, threeGameHighScoresListFle);
+        loadList(fiveGameHighScoresArrayList, fiveGameHighScoresListFile);
+
+
         loadMap(playersMap, playersMapFile);
-        loadMap(highScoresMap, highScoresMapFile);
+
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, true);
         BackgroundImage backgroundImage = new BackgroundImage(imageBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);

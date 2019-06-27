@@ -1,6 +1,7 @@
 package com.kodilla;
 
 import com.kodilla.royalgameofur.InstructionMenu;
+import com.kodilla.royalgameofur.RGOUHighScores;
 import com.kodilla.royalgameofur.RGOUMenu;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -150,7 +151,9 @@ public class MainMenu {
     }
 
     private void royalGameOfUrHighScoresButtonAction() {
-
+        clearGrid();
+        RGOUHighScores highScores = new RGOUHighScores(grid);
+        grid = highScores.newHighScores();
     }
 
 }

@@ -13,6 +13,7 @@ import static javafx.scene.paint.Color.WHITE;
 
 public class RGOUMenu {
 
+
     private Label rGOUMenuLabel1 = createRGOULabel();
     private Button onePlayerButton = createOnePlayerButton();
     private Button twoPlayersButton = createTwoPlayerButton();

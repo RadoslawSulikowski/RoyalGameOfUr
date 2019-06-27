@@ -5,8 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 import static com.kodilla.GamePlatform.FONT30;
 import static javafx.geometry.HPos.CENTER;

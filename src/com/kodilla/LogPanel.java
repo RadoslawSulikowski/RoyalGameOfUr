@@ -260,6 +260,8 @@ class LogPanel {
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("All fields must be filled in");
         } else if ((inputRegistrationPlayer.toUpperCase()).equals("GUEST")) {
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Player Name GUEST is reserved for... GUESTS!");
+        } else if (inputRegistrationPlayer.contains(";")) {
+            ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Player name contains illegal character ';'.");
         } else if (notUniquePlayerName) {
             ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("Player Name already exist!");
         } else if (!inputRegistrationPassword.equals(inputConfirmPassword)) {
