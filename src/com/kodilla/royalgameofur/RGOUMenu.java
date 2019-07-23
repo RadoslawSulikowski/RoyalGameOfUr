@@ -7,22 +7,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.GamePlatform.FONT25;
-import static com.kodilla.GamePlatform.FONT30;
-import static javafx.scene.paint.Color.WHITE;
+import static com.kodilla.Configurator.*;
 
 public class RGOUMenu {
 
-
-    private Label rGOUMenuLabel1 = createRGOULabel();
-    private Button onePlayerButton = createOnePlayerButton();
-    private Button twoPlayersButton = createTwoPlayerButton();
-    private Button mainMenuButton = createMainMenuButton();
-    private Button oneRoundButton = createOneRoundButton();
-    private Button threeRoundsButton = createThreeRoundsButton();
-    private Button fiveRoundsButton = createFiveRoundsButton();
-    private Button normalGameButton = createNormalGameButton();
-    private Button hardGameButton = createHardGameButton();
+    private Label rGOUMenuLabel1 = createLabel("CHOOSE GAME MODE:", FONT25);
+    private Button onePlayerButton = createButton("ONE PLAYER", FONT30, 250, (e) -> onePlayerButtonAction());
+    private Button twoPlayersButton = createButton("TWO PLAYERS", FONT30, 250, (e) -> twoPlayersButtonAction());
+    private Button mainMenuButton = createButton("MAIN MENU", FONT30, 250, (e) -> mainMenuButtonAction());
+    private Button oneRoundButton = createButton("1 ROUND", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
+    private Button threeRoundsButton = createButton("3 ROUNDS", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
+    private Button fiveRoundsButton = createButton("5 ROUNDS", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
+    private Button normalGameButton = createButton("NORMAL", FONT30, 150, e -> normalGameButtonAction());
+    private Button hardGameButton = createButton("HARD", FONT30, 150, e -> hardGameButtonAction());
 
     private GridPane grid;
     private double numberOfRows = 20;
@@ -34,109 +31,11 @@ public class RGOUMenu {
     }
 
     public GridPane newMenu() {
-
-        setRowsAndColumns();
+        setRowsAndColumns(grid, numberOfRows, numberOfColumns);
         addLabels();
         addButtons();
 
         return grid;
-    }
-
-
-    private Label createRGOULabel() {
-
-        Label rGOUMenuLabel1 = new Label("CHOOSE GAME MODE:");
-        rGOUMenuLabel1.setFont(FONT25);
-        rGOUMenuLabel1.setMinWidth(300);
-        rGOUMenuLabel1.setTextFill(WHITE);
-        return rGOUMenuLabel1;
-    }
-
-    private Button createOnePlayerButton() {
-        Button onePlayerButton = new Button("ONE PLAYER");
-        onePlayerButton.setFont(FONT30);
-        onePlayerButton.setMinWidth(250);
-        onePlayerButton.setOnAction((e) -> onePlayerButtonAction());
-        return onePlayerButton;
-    }
-
-    private Button createTwoPlayerButton() {
-        Button twoPlayersButton = new Button("TWO PLAYERS");
-        twoPlayersButton.setFont(FONT30);
-        twoPlayersButton.setMinWidth(250);
-        twoPlayersButton.setOnAction((e) -> twoPlayersButtonAction());
-        return twoPlayersButton;
-    }
-
-    private Button createMainMenuButton() {
-        Button mainMenuButton = new Button("MAIN MENU");
-        mainMenuButton.setFont(FONT30);
-        mainMenuButton.setOnAction((e) -> mainMenuButtonAction());
-        return mainMenuButton;
-    }
-
-    private Button createOneRoundButton() {
-        Button oneRoundButton = new Button("1 ROUND");
-        oneRoundButton.setFont(FONT30);
-        oneRoundButton.setOnAction(this::gameModeButtonAction);
-        return oneRoundButton;
-    }
-
-    private Button createThreeRoundsButton() {
-        Button threeRoundsButton = new Button("3 ROUNDS");
-        threeRoundsButton.setFont(FONT30);
-        threeRoundsButton.setOnAction(this::gameModeButtonAction);
-        return threeRoundsButton;
-    }
-
-    private Button createFiveRoundsButton() {
-        Button fiveRoundsButton = new Button("5 ROUNDS");
-        fiveRoundsButton.setFont(FONT30);
-        fiveRoundsButton.setOnAction(this::gameModeButtonAction);
-        return fiveRoundsButton;
-    }
-
-    private Button createNormalGameButton() {
-        Button normalGameButton = new Button("NORMAL");
-        normalGameButton.setFont(FONT30);
-        normalGameButton.setMinWidth(150);
-        normalGameButton.setOnAction((e) -> normalGameButtonAction());
-        return normalGameButton;
-    }
-
-    private Button createHardGameButton() {
-
-        Button hardGameButton = new Button("HARD");
-        hardGameButton.setFont(FONT30);
-        hardGameButton.setMinWidth(150);
-        hardGameButton.setOnAction((e) -> hardGameButtonAction());
-        return hardGameButton;
-    }
-
-
-    private void setRowsAndColumns() {
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(100.0 / numberOfRows);
-        }
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(100.0 / numberOfColumns);
-        }
-    }
-
-    private void resetRowsAndColumns() {
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(0);
-        }
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(0);
-        }
-    }
-
-    private void clearGrid() {
-        while (grid.getChildren().size() != 0) {
-            grid.getChildren().remove(grid.getChildren().get(0));
-        }
-        resetRowsAndColumns();
     }
 
     private void addLabels() {
@@ -144,11 +43,9 @@ public class RGOUMenu {
     }
 
     private void addButtons() {
-
         grid.add(oneRoundButton, 1, 3);
         grid.add(threeRoundsButton, 3, 3);
         grid.add(fiveRoundsButton, 5, 3);
-
         grid.add(mainMenuButton, 3, 18);
     }
 
@@ -191,21 +88,19 @@ public class RGOUMenu {
         if (!grid.getChildren().contains(twoPlayersButton)) {
             grid.add(twoPlayersButton, 4, 6);
         }
-
-
     }
 
     private void normalGameButtonAction() {
-
-        clearGrid();
-        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, true, roundsToPlay);
+        clearGrid(grid, numberOfRows, numberOfColumns);
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, roundsToPlay, true, false);
         grid = royalGameOfUr.newGame();
     }
 
     private void hardGameButtonAction() {
-
+        clearGrid(grid, numberOfRows, numberOfColumns);
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, roundsToPlay, true, true);
+        grid = royalGameOfUr.newGame();
     }
-
 
     private void onePlayerButtonAction() {
         grid.getChildren().remove(twoPlayersButton);
@@ -220,16 +115,14 @@ public class RGOUMenu {
     }
 
     private void twoPlayersButtonAction() {
-        clearGrid();
-        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, false, roundsToPlay);
+        clearGrid(grid, numberOfRows, numberOfColumns);
+        RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, roundsToPlay, false, false);
         grid = royalGameOfUr.newGame();
     }
 
     private void mainMenuButtonAction() {
-        clearGrid();
+        clearGrid(grid, numberOfRows, numberOfColumns);
         MainMenu menu = new MainMenu(grid);
         grid = menu.newMainMenu();
     }
-
-
 }

@@ -8,45 +8,45 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Random;
 
 import static javafx.scene.layout.GridPane.setConstraints;
 import static javafx.scene.paint.Color.*;
 import static javafx.scene.paint.Color.SILVER;
 import static com.kodilla.GamePlatform.*;
+import static com.kodilla.Configurator.*;
 
 class RoyalGameOfUr {
-
     private GridPane grid;
     private RGOUConfigurator configurator;
     private Random generator = new Random();
     private boolean firstMovePlayerSelected = false;
     private boolean ifMove = false;
     private boolean onePlayerGame;
+    private boolean hardGame;
     private int bluePlayerDrawResult = 0;
     private int greenPlayerDrawResult = 0;
     private int fieldsToMove = 0;
     private String whichPlayerTurn = "";
-    private static int bluePawnsOnStart = 7;
-    private static int greenPawnsOnStart = 7;
-    private static int bluePawnsAtFinish = 0;
-    private static int greenPawnsAtFinish = 0;
-    private static int roundsToPlay = 0;
-    private static int roundsPlayed = 0;
-    private static int greenPoints = 0;
-    private static int bluePoints = 0;
+    private int bluePawnsOnStart = 7;
+    private int greenPawnsOnStart = 7;
+    private int bluePawnsAtFinish = 0;
+    private int greenPawnsAtFinish = 0;
+    private int roundsToPlay;
+    private int roundsPlayed = 0;
+    private int greenPoints = 0;
+    private int bluePoints = 0;
 
-
-    RoyalGameOfUr(GridPane grid, boolean ifOnePlayerGame, int roundsToPlay) {
+    RoyalGameOfUr(GridPane grid, int roundsToPlay, boolean ifOnePlayerGame, boolean ifHardGame) {
         this.grid = grid;
-        RoyalGameOfUr.roundsToPlay = roundsToPlay;
+        this.roundsToPlay = roundsToPlay;
         onePlayerGame = ifOnePlayerGame;
+        hardGame = ifHardGame;
         this.configurator = new RGOUConfigurator(grid);
-
     }
 
     GridPane newGame() {
-
         configurator.configure();
         configurator.rollButton.setOnAction(e -> rollButtonAction());
         configurator.mainMenuButton.setOnAction(e -> mainMenuButtonAction());
@@ -60,9 +60,39 @@ class RoyalGameOfUr {
                 computerMove();
             }
         });
-
         return grid;
+    }
 
+    private int getPawnsOnStart(String pawnColor) {
+        return pawnColor.equals("GREEN") ? greenPawnsOnStart : bluePawnsOnStart;
+    }
+
+    private int getPawnsAtFinish(String pawnColor) {
+        return pawnColor.equals("GREEN") ? greenPawnsAtFinish : bluePawnsAtFinish;
+    }
+
+    private void incrementPawnsOnStart(String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
+            ++greenPawnsOnStart;
+        } else {
+            ++bluePawnsOnStart;
+        }
+    }
+
+    private void decrementPawnsOnStart(String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
+            --greenPawnsOnStart;
+        } else {
+            --bluePawnsOnStart;
+        }
+    }
+
+    private void incrementPawnsAtFinish(String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
+            ++greenPawnsAtFinish;
+        } else {
+            ++bluePawnsAtFinish;
+        }
     }
 
     private void setIfMove(boolean value) {
@@ -87,14 +117,14 @@ class RoyalGameOfUr {
                 if (((Pawn) node).getPawnColor().equals("GREEN")) {
                     ((Pawn) node).setOnAction((e) -> {
                         if (ifMove && whichPlayerTurn.equals("GREEN")) {
-                            greenPawnMove((Pawn) node);
+                            pawnMove((Pawn) node, "GREEN");
                         }
                     });
                 }
                 if (((Pawn) node).getPawnColor().equals("BLUE") && !onePlayerGame) {
                     ((Pawn) node).setOnAction((e) -> {
                         if (ifMove && whichPlayerTurn.equals("BLUE")) {
-                            bluePawnMove((Pawn) node);
+                            pawnMove((Pawn) node, "BLUE");
                         }
                     });
                 }
@@ -105,7 +135,10 @@ class RoyalGameOfUr {
     private void rollButtonAction() {
         configurator.warningsLabel.setText("");
 
-        if (!ifMove && firstMovePlayerSelected) {
+        if (!firstMovePlayerSelected) {
+            firstMovePlayerSelection();
+        }
+        if (!ifMove && firstMovePlayerSelected && !(onePlayerGame && whichPlayerTurn.equals("BLUE"))) {
             fieldsToMove = convertCoinsIntoPoints(coinsToss());
             if (!ifPlayerMoveImpossible()) {
                 setIfMove(true);
@@ -114,40 +147,37 @@ class RoyalGameOfUr {
                 configurator.warningsLabel.setText(whichPlayerTurn + " player has no possible moves.\n" +
                         whichPlayerTurn + " lost his turn.");
                 if (whichPlayerTurn.equals("GREEN")) {
-
                     setWhichPlayerTurn("BLUE");
+                    if (onePlayerGame && bluePawnsAtFinish != 7 && greenPawnsAtFinish != 7) {
+                        fieldsToMove = convertCoinsIntoPoints(coinsToss());
+                        configurator.warningsLabel.setText("Blue draws " + fieldsToMove + " points.\n" +
+                                "Waiting for Blue's move.");
+                    }
                 } else {
                     setWhichPlayerTurn("GREEN");
                 }
             }
         }
-        if (!firstMovePlayerSelected) {
-            firstMovePlayerSelection();
-        }
     }
 
     private void mainMenuButtonAction() {
-
-        configurator.clearGrid();
-        resetFields();
+        clearGrid(grid, configurator.getNumberOfRows(), configurator.getNumberOfColumns());
+        resetAllFields();
 
         MainMenu menu = new MainMenu(grid);
         grid = menu.newMainMenu();
-
     }
 
     private void newGameButtonAction() {
-
-        configurator.clearGrid();
-        resetFields();
+        clearGrid(grid, configurator.getNumberOfRows(), configurator.getNumberOfColumns());
+        resetAllFields();
 
         RGOUMenu rgouMenu = new RGOUMenu(grid);
         grid = rgouMenu.newMenu();
-
     }
 
     private void nextGameButtonAction() {
-        configurator.clearGrid();
+        clearGrid(grid, configurator.getNumberOfRows(), configurator.getNumberOfColumns());
         configurator.configure();
         configurator.rollButton.setOnAction(e -> rollButtonAction());
         configurator.mainMenuButton.setOnAction(e -> mainMenuButtonAction());
@@ -157,6 +187,10 @@ class RoyalGameOfUr {
         setOnActionAllPawns();
         firstMovePlayerSelected = false;
         ifMove = false;
+        resetFieldsOnEndOfRound();
+    }
+
+    private void resetFieldsOnEndOfRound() {
         bluePawnsOnStart = 7;
         greenPawnsOnStart = 7;
         bluePawnsAtFinish = 0;
@@ -166,32 +200,24 @@ class RoyalGameOfUr {
         fieldsToMove = 0;
     }
 
-    private void resetFields() {
-
-        bluePawnsOnStart = 7;
-        greenPawnsOnStart = 7;
-        bluePawnsAtFinish = 0;
-        greenPawnsAtFinish = 0;
+    private void resetAllFields() {
+        resetFieldsOnEndOfRound();
         roundsToPlay = 0;
         roundsPlayed = 0;
         greenPoints = 0;
         bluePoints = 0;
         firstMovePlayerSelected = false;
         ifMove = false;
-        bluePlayerDrawResult = 0;
-        greenPlayerDrawResult = 0;
-        fieldsToMove = 0;
     }
-
 
     private int coinsToss() {
         int goldCoins = 0;
         for (int i = 11; i < 14; i++) {
             if (generator.nextBoolean()) {
-                (getCoinFromSecondRow(i)).setFill(GOLD);
+                (Objects.requireNonNull(getCoinFromSecondRow(i))).setFill(GOLD);
                 goldCoins += 1;
             } else {
-                getCoinFromSecondRow(i).setFill(SILVER);
+                Objects.requireNonNull(getCoinFromSecondRow(i)).setFill(SILVER);
             }
         }
         return goldCoins;
@@ -275,20 +301,58 @@ class RoyalGameOfUr {
         return null;
     }
 
-    private void setFieldFreeOverGreenPawn(int position) {
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Field && ((Field) node).getFieldNumberForGreen() == position) {
-                ((Field) node).setIsBusyByGreen(false);
-            }
+    private void setFieldFreeOverPawn(int fieldNumber, String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
+            getField(fieldNumber, pawnColor).setIsBusyByGreen(false);
+        } else {
+            getField(fieldNumber, pawnColor).setIsBusyByBlue(false);
         }
     }
 
-    private void setFieldFreeOverBluePawn(int position) {
+    private boolean ifFieldFree(int fieldNumber, String pawnColor) {
+        return !(getField(fieldNumber, pawnColor).getIsBusy(pawnColor) ||
+                (getField(fieldNumber, pawnColor).getIsHighlighted()) && (getField(fieldNumber, pawnColor).getIsBusy(invertPawnColor(pawnColor))));
+    }
+
+    private boolean ifPlayerMoveImpossible() {
+        boolean result = true;
         for (Node node : grid.getChildren()) {
-            if (node instanceof Field && ((Field) node).getFieldNumberForBlue() == position) {
-                ((Field) node).setIsBusyByBlue(false);
+            if (node instanceof Pawn && ((Pawn) node).getPawnColor().equals(whichPlayerTurn) && ((Pawn) node).getPosition() != 18) {
+                result = result && !ifFieldFree((((Pawn) node).getPosition() + fieldsToMove), whichPlayerTurn);
             }
         }
+        return result;
+    }
+
+    private boolean ifPawnCanMove(Node node) {
+        return node instanceof Pawn
+                && ((Pawn) node).getPawnColor().equals("BLUE")
+                && ((Pawn) node).getPosition() < 18
+                && ifFieldFree((((Pawn) node).getPosition() + fieldsToMove), "BLUE");
+    }
+
+    private boolean ifFieldBusyByOpponentsPawnAndHighlighted(Node node, String pawnColor) {
+        return ((((Field) node).getIsHighlighted()) && ((Field) node).getIsBusy(invertPawnColor(pawnColor)));
+    }
+
+    private Field getField(int fieldNumber, String pawnColor) {
+        if (fieldNumber > 18) {
+            fieldNumber = 18;
+        }
+        Field field = null;
+        for (Node node : grid.getChildren()) {
+            if (node instanceof Field && fieldNumber == ((Field) node).getFieldNumber(pawnColor)) {
+                field = (Field) node;
+            }
+        }
+        return field;
+    }
+
+    private String invertPawnColor(String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
+            return "BLUE";
+        }
+        return "GREEN";
     }
 
     private void setPawnTextWithNumberOfPawnsOnPosition(int numberOfPawns, int pawnPosition, String pawnColor) {
@@ -299,192 +363,82 @@ class RoyalGameOfUr {
         }
     }
 
-    private boolean ifFinalFieldFree(int finalPosition, String pawnColor) {
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Field
-                    && pawnColor.equals("GREEN")
-                    && ((Field) node).getFieldNumberForGreen() == finalPosition
-                    && ((((Field) node).getIsBusyByGreen()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByBlue())))) {
-                return false;
-            }
-            if (node instanceof Field
-                    && pawnColor.equals("BLUE")
-                    && ((Field) node).getFieldNumberForBlue() == finalPosition
-                    && ((((Field) node).getIsBusyByBlue()) || ((((Field) node).getIsHighlighted()) && (((Field) node).getIsBusyByGreen())))) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean ifPlayerMoveImpossible() {
-        boolean result = true;
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Pawn && ((Pawn) node).getPawnColor().equals(whichPlayerTurn) && ((Pawn) node).getPosition() != 18) {
-                result = result && !ifFinalFieldFree((((Pawn) node).getPosition() + fieldsToMove), whichPlayerTurn);
-            }
-        }
-        return result;
-    }
-
-    private void putGreenPawnOnPosition(Pawn pawn) {
+    private void putPawnOnPosition(Pawn pawn, String pawnColor) {
         if (pawn.getPosition() < 18) {
-            for (Node node : grid.getChildren()) {
-                if (node instanceof Field && ((Field) node).getFieldNumberForGreen() == pawn.getPosition()) {
-                    setConstraints(pawn, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
-                    ((Field) node).setIsBusyByGreen(true);
-                    if (!((Field) node).getIsHighlighted()) {
-
-                        setWhichPlayerTurn("BLUE");
-                    }
-                }
+            Field positionField = getField(pawn.getPosition(), pawnColor);
+            setConstraints(pawn, GridPane.getColumnIndex(positionField), GridPane.getRowIndex(positionField));
+            if (pawnColor.equals("BLUE")) {
+                positionField.setIsBusyByBlue(true);
+            } else if (pawnColor.equals("GREEN")) {
+                positionField.setIsBusyByGreen(true);
+            }
+            if (!positionField.getIsHighlighted()) {
+                setWhichPlayerTurn(pawnColor.equals("BLUE") ? "GREEN" : "BLUE");
             }
         } else {
-            setConstraints(pawn, 8, 3);
+            setConstraints(pawn, 8, pawnColor.equals("BLUE") ? 5 : 3);
             pawn.setPosition(18);
-            setPawnTextWithNumberOfPawnsOnPosition(++greenPawnsAtFinish, 18, "GREEN");
+            incrementPawnsAtFinish(pawnColor);
+            setPawnTextWithNumberOfPawnsOnPosition(getPawnsAtFinish(pawnColor), 18, pawnColor);
             pawn.setOnAction((e) -> {
-                if (whichPlayerTurn.equals("GREEN")) {
+                if (whichPlayerTurn.equals(pawnColor)) {
                     configurator.warningsLabel.setText("You can't move this pawn - " +
                             "it has finished its journey over board!");
                 }
             });
-            if (greenPawnsAtFinish == 7) {
-                configurator.whichTurnLabel.setText("PLAYER GREEN");
+            if (getPawnsAtFinish(pawnColor) == 7) {
+                configurator.whichTurnLabel.setText("PLAYER " + pawnColor);
+
                 endOfRoundAction();
             } else {
-                setWhichPlayerTurn("BLUE");
+                setWhichPlayerTurn(pawnColor.equals("BLUE") ? "GREEN" : "BLUE");
             }
         }
-        if (greenPawnsAtFinish != 7) {
+        if (getPawnsAtFinish(pawnColor) != 7) {
             setIfMove(false);
         }
     }
 
-    private void putBluePawnOnPosition(Pawn pawn) {
-        if (pawn.getPosition() < 18) {
-            for (Node node : grid.getChildren()) {
-                if (node instanceof Field && ((Field) node).getFieldNumberForBlue() == pawn.getPosition()) {
-                    setConstraints(pawn, GridPane.getColumnIndex(node), GridPane.getRowIndex(node));
-                    ((Field) node).setIsBusyByBlue(true);
-                    if (!((Field) node).getIsHighlighted()) {
-                        setWhichPlayerTurn("GREEN");
-                    }
-                }
-            }
-        } else {
-            setConstraints(pawn, 8, 5);
-            pawn.setPosition(18);
-            setPawnTextWithNumberOfPawnsOnPosition(++bluePawnsAtFinish, 18, "BLUE");
-            pawn.setOnAction((e) -> {
-                if (whichPlayerTurn.equals("BLUE")) {
-                    configurator.warningsLabel.setText("You can't move this pawn - " +
-                            "it has finished its journey over board!");
-                }
-            });
-            if (bluePawnsAtFinish == 7) {
-                configurator.whichTurnLabel.setText("PLAYER BLUE");
-
-                endOfRoundAction();
-            } else {
-                setWhichPlayerTurn("GREEN");
-            }
-        }
-        if (bluePawnsAtFinish != 7) {
-            setIfMove(false);
-        }
-    }
-
-    private void greenPawnMove(Pawn pawn) {
+    private void pawnMove(Pawn pawn, String pawnColor) {
         configurator.warningsLabel.setText("");
-        if (pawn.getPosition() == 1 && ifFinalFieldFree(pawn.getPosition() + fieldsToMove, "GREEN")) {
-            setPawnTextWithNumberOfPawnsOnPosition(--greenPawnsOnStart, 1, "GREEN");
+        if (pawn.getPosition() == 1 && ifFieldFree(pawn.getPosition() + fieldsToMove, pawnColor)) {
+            decrementPawnsOnStart(pawnColor);
+            setPawnTextWithNumberOfPawnsOnPosition(getPawnsOnStart(pawnColor), 1, pawnColor);
             pawn.setText("");
         }
         for (Node node : grid.getChildren()) {
             if ((pawn.getPosition() + fieldsToMove) >= 18) {
-                setFieldFreeOverGreenPawn(pawn.getPosition());
+                setFieldFreeOverPawn(pawn.getPosition(), pawnColor);
                 pawn.setPosition(pawn.getPosition() + fieldsToMove);
-                putGreenPawnOnPosition(pawn);
+                putPawnOnPosition(pawn, pawnColor);
                 break;
             }
-            if (node instanceof Field && ((Field) node).getFieldNumberForGreen() == (pawn.getPosition() + fieldsToMove)) {
-                if (!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()) {
-                    setFieldFreeOverGreenPawn(pawn.getPosition());
+            if (node instanceof Field && ((Field) node).getFieldNumber(pawnColor) == (pawn.getPosition() + fieldsToMove)) {
+                if (!((Field) node).getIsBusy()) {
+                    setFieldFreeOverPawn(pawn.getPosition(), pawnColor);
                     pawn.setPosition(pawn.getPosition() + fieldsToMove);
                     fieldsToMove = 0;
-                    putGreenPawnOnPosition(pawn);
+                    putPawnOnPosition(pawn, pawnColor);
                     break;
                 }
-                if (((Field) node).getIsBusyByGreen()) {
+                if (((Field) node).getIsBusy(pawnColor)) {
                     configurator.warningsLabel.setText("You can't move this pawn, cause on final field is your another pawn");
                 }
-                if (((Field) node).getIsBusyByBlue() && ((Field) node).getIsHighlighted()) {
+                if (ifFieldBusyByOpponentsPawnAndHighlighted(node, pawnColor)) {
                     configurator.warningsLabel.setText("You can't knock pawn on highlighted field");
                 }
-
-                if (((Field) node).getIsBusyByBlue() && !((Field) node).getIsHighlighted()) {
-                    setConstraints(((Field) node).getBluePawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 5);
-                    (((Field) node).getBluePawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
-                    setPawnTextWithNumberOfPawnsOnPosition(++bluePawnsOnStart, 1, "BLUE");
-                    setFieldFreeOverGreenPawn(pawn.getPosition());
+                if (((Field) node).getIsBusy(invertPawnColor(pawnColor)) && !((Field) node).getIsHighlighted()) {
+                    setConstraints(((Field) node).getPawnFromField(grid, pawn.getPosition() + fieldsToMove, invertPawnColor(pawnColor)), 7, (pawnColor.equals("GREEN") ? 5 : 3));
+                    (((Field) node).getPawnFromField(grid, pawn.getPosition() + fieldsToMove, invertPawnColor(pawnColor))).putPawnOnStart();
+                    incrementPawnsOnStart(invertPawnColor(pawnColor));
+                    setPawnTextWithNumberOfPawnsOnPosition(getPawnsOnStart(invertPawnColor(pawnColor)), 1, invertPawnColor(pawnColor));
+                    setFieldFreeOverPawn(pawn.getPosition(), pawnColor);
                     pawn.setPosition(pawn.getPosition() + fieldsToMove);
-                    setFieldFreeOverBluePawn(Field.convertFieldNumberOtherColors(pawn.getPosition()));
+                    setFieldFreeOverPawn(Field.convertFieldNumberOtherColors(pawn.getPosition()), invertPawnColor(pawnColor));
                     fieldsToMove = 0;
-                    putGreenPawnOnPosition(pawn);
+                    putPawnOnPosition(pawn, pawnColor);
                     break;
                 }
-
-            }
-        }
-        if (onePlayerGame && whichPlayerTurn.equals("BLUE") && bluePawnsAtFinish != 7 && greenPawnsAtFinish != 7) {
-            fieldsToMove = convertCoinsIntoPoints(coinsToss());
-            configurator.warningsLabel.setText("Blue draws " + fieldsToMove + " points.\n" +
-                    "Waiting for Blue's move.");
-        }
-    }
-
-    private void bluePawnMove(Pawn pawn) {
-        configurator.warningsLabel.setText("");
-        if (pawn.getPosition() == 1 && ifFinalFieldFree(pawn.getPosition() + fieldsToMove, "BLUE")) {
-            setPawnTextWithNumberOfPawnsOnPosition(--bluePawnsOnStart, 1, "BLUE");
-            pawn.setText("");
-        }
-        for (Node node : grid.getChildren()) {
-            if ((pawn.getPosition() + fieldsToMove) >= 18) {
-                setFieldFreeOverBluePawn(pawn.getPosition());
-                pawn.setPosition(pawn.getPosition() + fieldsToMove);
-                putBluePawnOnPosition(pawn);
-                break;
-            }
-            if (node instanceof Field && ((Field) node).getFieldNumberForBlue() == (pawn.getPosition() + fieldsToMove)) {
-                if (!((Field) node).getIsBusyByBlue() && !((Field) node).getIsBusyByGreen()) {
-                    setFieldFreeOverBluePawn(pawn.getPosition());
-                    pawn.setPosition(pawn.getPosition() + fieldsToMove);
-                    fieldsToMove = 0;
-                    putBluePawnOnPosition(pawn);
-                    break;
-                }
-                if (((Field) node).getIsBusyByBlue()) {
-                    configurator.warningsLabel.setText("You can't move this pawn, cause on final field is your another pawn");
-                }
-
-                if (((Field) node).getIsBusyByGreen() && ((Field) node).getIsHighlighted()) {
-
-                    configurator.warningsLabel.setText("You can't knock pawn on highlighted field");
-                }
-                if (((Field) node).getIsBusyByGreen() && !((Field) node).getIsHighlighted()) {
-                    setConstraints(((Field) node).getGreenPawnFromField(grid, pawn.getPosition() + fieldsToMove), 7, 3);
-                    (((Field) node).getGreenPawnFromField(grid, pawn.getPosition() + fieldsToMove)).putPawnOnStart();
-                    setPawnTextWithNumberOfPawnsOnPosition(++greenPawnsOnStart, 1, "GREEN");
-                    setFieldFreeOverBluePawn(pawn.getPosition());
-                    pawn.setPosition(pawn.getPosition() + fieldsToMove);
-                    setFieldFreeOverGreenPawn(Field.convertFieldNumberOtherColors(pawn.getPosition()));
-                    fieldsToMove = 0;
-                    putBluePawnOnPosition(pawn);
-                    break;
-                }
-
             }
         }
         if (onePlayerGame && whichPlayerTurn.equals("BLUE") && bluePawnsAtFinish != 7 && greenPawnsAtFinish != 7) {
@@ -495,21 +449,57 @@ class RoyalGameOfUr {
     }
 
     private void computerMove() {
-        delay(2);
+        delay();
         if (ifPlayerMoveImpossible()) {
-
             configurator.warningsLabel.setText(whichPlayerTurn + " player has no possible moves.\n" +
                     whichPlayerTurn + " lost his turn.");
             setWhichPlayerTurn("GREEN");
         }
         if (whichPlayerTurn.equals("BLUE")) {
+            if (!hardGame) {
+                for (Node node : grid.getChildren()) {
+                    if (ifPawnCanMove(node)) {
+                        pawnMove((Pawn) node, "BLUE");
+                        break;
+                    }
+                }
+            } else {
+                hardModeComputerMove();
+            }
+        }
+    }
 
+    private void hardModeComputerMove() {
+        boolean moveDone = false;
+        for (Node node : grid.getChildren()) {
+            if (ifPawnCanMove(node) && getField(((Pawn) node).getPosition() + fieldsToMove, "BLUE").getIsHighlighted()) {
+                pawnMove(((Pawn) node), "BLUE");
+                moveDone = true;
+                break;
+            }
+        }
+        if (!moveDone) {
             for (Node node : grid.getChildren()) {
-                if (node instanceof Pawn
-                        && ((Pawn) node).getPawnColor().equals("BLUE")
-                        && ((Pawn) node).getPosition() < 18
-                        && ifFinalFieldFree((((Pawn) node).getPosition() + fieldsToMove), "BLUE")) {
-                    bluePawnMove((Pawn) node);
+                if (ifPawnCanMove(node) && getField(((Pawn) node).getPosition() + fieldsToMove, "BLUE").getIsBusy("GREEN")) {
+                    pawnMove(((Pawn) node), "BLUE");
+                    moveDone = true;
+                    break;
+                }
+            }
+        }
+        if (!moveDone) {
+            for (Node node : grid.getChildren()) {
+                if (ifPawnCanMove(node) && !getField(((Pawn) node).getPosition(), "BLUE").getIsHighlighted()) {
+                    pawnMove(((Pawn) node), "BLUE");
+                    moveDone = true;
+                    break;
+                }
+            }
+        }
+        if (!moveDone) {
+            for (Node node : grid.getChildren()) {
+                if (ifPawnCanMove(node)) {
+                    pawnMove(((Pawn) node), "BLUE");
                     break;
                 }
             }
@@ -517,7 +507,6 @@ class RoyalGameOfUr {
     }
 
     private void endOfRoundAction() {
-
         ++roundsPlayed;
         if (bluePawnsAtFinish == 7) {
             bluePoints += (bluePawnsAtFinish - greenPawnsAtFinish);
@@ -548,7 +537,6 @@ class RoyalGameOfUr {
     }
 
     private void endOfGameAction() {
-
         configurator.whichActionLabel.setText("WON GAME");
         for (Node node : grid.getChildren()) {
             if (node instanceof Button
@@ -557,7 +545,7 @@ class RoyalGameOfUr {
                         configurator.warningsLabel.setText("The game has finished!"));
             }
         }
-        if(!getPlayerName().equals("GUEST") && onePlayerGame) {
+        if (!getPlayerName().equals("GUEST") && onePlayerGame) {
             HighScore highScore = new HighScore(getPlayerName(), (greenPoints - bluePoints));
             if (roundsToPlay == 1) {
                 getOneGameHighScoresArrayList().add(highScore);
@@ -589,13 +577,11 @@ class RoyalGameOfUr {
 
     }
 
-    private void delay(int seconds) {
+    private void delay() {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(2000);
         } catch(InterruptedException e) {
             e.printStackTrace();
         }
     }
-
-
 }

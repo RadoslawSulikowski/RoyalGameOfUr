@@ -5,8 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -14,11 +12,6 @@ import java.util.*;
 
 
 public class GamePlatform extends Application {
-
-    public static final Font FONT15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
-    public static final Font FONT20 = Font.font("ALGERIAN", FontWeight.BOLD, 20);
-    public static final Font FONT25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
-    public static final Font FONT30 = Font.font("ALGERIAN", FontWeight.BOLD, 30);
 
     private static Map<String, String> playersMap = new HashMap<>();
     private static List<HighScore> oneGameHighScoresArrayList = new ArrayList<>();
@@ -28,7 +21,6 @@ public class GamePlatform extends Application {
     private static File oneGameHighScoresListFile = new File("oneGameHighScoresListFile");
     private static File threeGameHighScoresListFle = new File("threeGameHighScoresListFle");
     private static File fiveGameHighScoresListFile = new File("fiveGameHighScoresListFile");
-
 
     private Image imageBack = new Image("file:src/com/resources/background.png", true);
     private GridPane grid = new GridPane();
@@ -176,5 +168,3 @@ public class GamePlatform extends Application {
         launch(args);
     }
 }
-
-

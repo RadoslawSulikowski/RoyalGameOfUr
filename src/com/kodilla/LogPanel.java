@@ -14,8 +14,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
+import static com.kodilla.Configurator.*;
 import static com.kodilla.GamePlatform.*;
-import static javafx.scene.paint.Color.WHITE;
 
 class LogPanel {
 
@@ -23,47 +23,17 @@ class LogPanel {
     private double numberOfRows = 15;
     private double numberOfColumns = 5;
 
-
     LogPanel(GridPane grid) {
         this.grid = grid;
     }
 
     GridPane newLogPanel() {
-        setRowsAndColumns();
+        setRowsAndColumns(grid, numberOfRows, numberOfColumns);
         addLabels();
         addTextFields();
         addButtons();
 
         return grid;
-
-    }
-
-
-    private void setRowsAndColumns() {
-
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(100.0 / numberOfRows);
-        }
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(100.0 / numberOfColumns);
-        }
-    }
-
-    private void resetRowsAndColumns() {
-
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(0);
-        }
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(0);
-        }
-    }
-
-    private void clearGrid() {
-        while (grid.getChildren().size() != 0) {
-            grid.getChildren().remove(grid.getChildren().get(0));
-        }
-        resetRowsAndColumns();
     }
 
     private String encrypt(String textToEncrypt) {
@@ -72,146 +42,81 @@ class LogPanel {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] messageDigest = md.digest(textToEncrypt.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
+            StringBuilder hashText = new StringBuilder(no.toString(16));
+            while (hashText.length() < 32) {
+                hashText.insert(0, "0");
             }
-            return hashtext;
+            return hashText.toString();
         } catch(NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-
     private void addLabels() {
-
-        Label logPanelLabel = new Label();
-        logPanelLabel.setText("LOG PANEL");
-        logPanelLabel.setId("LogPanelLabel");
-        logPanelLabel.setFont(FONT25);
-        logPanelLabel.setMinWidth(300);
-        logPanelLabel.setTextFill(WHITE);
-        logPanelLabel.setAlignment(Pos.CENTER);
+        Label logPanelLabel = createLabel("LOG PANEL", "LogPanelLabel", FONT25);
         GridPane.setHalignment(logPanelLabel, HPos.CENTER);
         grid.add(logPanelLabel, 2, 0);
 
-        Label loginLabel = new Label();
-        loginLabel.setText("LOGIN");
-        loginLabel.setId("LoginLabel");
-        loginLabel.setFont(FONT20);
-        loginLabel.setMinWidth(300);
-        loginLabel.setTextFill(WHITE);
-        loginLabel.setAlignment(Pos.CENTER);
+        Label loginLabel = createLabel("LOGIN", "LoginLabel", FONT20);
         GridPane.setHalignment(loginLabel, HPos.CENTER);
         grid.add(loginLabel, 2, 1);
 
-        Label LoginWarningsLabel = new Label();
-        LoginWarningsLabel.setText("");
-        LoginWarningsLabel.setId("LoginWarningsLabel");
-        LoginWarningsLabel.setFont(FONT15);
-        LoginWarningsLabel.setMinWidth(300);
-        LoginWarningsLabel.setWrapText(true);
-        LoginWarningsLabel.setTextFill(WHITE);
-        LoginWarningsLabel.setAlignment(Pos.CENTER);
+        Label LoginWarningsLabel = createLabel("", "LoginWarningsLabel", FONT15, true);
         GridPane.setHalignment(LoginWarningsLabel, HPos.CENTER);
         grid.add(LoginWarningsLabel, 2, 4);
 
-        Label registrationLabel = new Label();
-        registrationLabel.setText("OR REGISTER");
-        registrationLabel.setId("RegistrationLabel");
-        registrationLabel.setFont(FONT20);
-        registrationLabel.setMinWidth(300);
-        registrationLabel.setTextFill(WHITE);
-        registrationLabel.setAlignment(Pos.CENTER);
+        Label registrationLabel = createLabel("OR REGISTER", "RegistrationLabel", FONT20);
         GridPane.setHalignment(registrationLabel, HPos.CENTER);
         grid.add(registrationLabel, 2, 5);
 
-        Label registrationWarningsLabel = new Label();
-        registrationWarningsLabel.setText("");
-        registrationWarningsLabel.setId("RegistrationWarningsLabel");
-        registrationWarningsLabel.setFont(FONT15);
-        registrationWarningsLabel.setMinWidth(600);
-        registrationWarningsLabel.setWrapText(true);
-        registrationWarningsLabel.setTextFill(WHITE);
-        registrationWarningsLabel.setAlignment(Pos.CENTER);
+        Label registrationWarningsLabel = createLabel("", "RegistrationWarningsLabel", FONT15, true, Pos.CENTER, 600);
         GridPane.setHalignment(registrationWarningsLabel, HPos.CENTER);
         grid.add(registrationWarningsLabel, 1, 8, 3, 1);
 
-        Label playAsGuestLabel = new Label();
-        playAsGuestLabel.setText("OR PLAY AS GUEST");
-        playAsGuestLabel.setId("PlayAsGuestLabel");
-        playAsGuestLabel.setFont(FONT20);
-        playAsGuestLabel.setMinWidth(300);
-        playAsGuestLabel.setTextFill(WHITE);
-        playAsGuestLabel.setAlignment(Pos.CENTER);
+        Label playAsGuestLabel = createLabel("OR PLAY AS GUEST", "PlayAsGuestLabel", FONT20);
         GridPane.setHalignment(playAsGuestLabel, HPos.CENTER);
         grid.add(playAsGuestLabel, 2, 9);
     }
 
     private void addTextFields() {
-
-        TextField loginPlayerNameField = new TextField();
-        loginPlayerNameField.setPromptText("Player Name");
-        loginPlayerNameField.setId("LoginPlayerNameField");
+        TextField loginPlayerNameField = createTextField("LoginPlayerNameField");
         grid.add(loginPlayerNameField, 1, 2);
 
-        PasswordField loginPasswordField = new PasswordField();
-        loginPasswordField.setPromptText("Password");
-        loginPasswordField.setId("LoginPasswordField");
+        PasswordField loginPasswordField = createPasswordField("LoginPasswordField");
         grid.add(loginPasswordField, 3, 2);
 
-        TextField registrationPlayerNameField = new TextField();
-        registrationPlayerNameField.setText("");
-        registrationPlayerNameField.setPromptText("Player Name");
-        registrationPlayerNameField.setId("RegistrationPlayerNameField");
-        registrationPlayerNameField.setMaxWidth(250);
+        TextField registrationPlayerNameField = createTextField("RegistrationPlayerNameField", 250);
         GridPane.setHalignment(registrationPlayerNameField, HPos.LEFT);
         grid.add(registrationPlayerNameField, 1, 6);
 
-        PasswordField registrationPasswordField = new PasswordField();
-        registrationPasswordField.setText("");
-        registrationPasswordField.setPromptText("Password");
-        registrationPasswordField.setId("RegistrationPasswordField");
-        registrationPasswordField.setMaxWidth(250);
+        PasswordField registrationPasswordField = createPasswordField("RegistrationPasswordField", 250);
         GridPane.setHalignment(registrationPasswordField, HPos.CENTER);
         grid.add(registrationPasswordField, 2, 6);
 
-        PasswordField confirmRegistrationPasswordField = new PasswordField();
-        confirmRegistrationPasswordField.setText("");
+        PasswordField confirmRegistrationPasswordField = createPasswordField("ConfirmRegistrationPasswordField", 250);
         confirmRegistrationPasswordField.setPromptText("Confirm Password");
-        confirmRegistrationPasswordField.setId("ConfirmRegistrationPasswordField");
-        confirmRegistrationPasswordField.setMaxWidth(250);
         GridPane.setHalignment(confirmRegistrationPasswordField, HPos.RIGHT);
         grid.add(confirmRegistrationPasswordField, 3, 6);
     }
 
     private void addButtons() {
-
-        Button playAsGuestButton = new Button("PLAY AS GUEST");
-        playAsGuestButton.setId("PlayAsGuestButton");
-        playAsGuestButton.setFont(FONT30);
-        playAsGuestButton.setOnAction((e) -> playAsGuestButtonAction());
+        Button playAsGuestButton = createButton("PLAY AS GUEST", "PlayAsGuestButton", FONT30, (e) -> playAsGuestButtonAction());
         grid.add(playAsGuestButton, 2, 10);
+        GridPane.setHalignment(playAsGuestButton, HPos.CENTER);
 
-        Button loginButton = new Button("LOGIN");
-        loginButton.setId("LoginButton");
-        loginButton.setFont(FONT30);
-        loginButton.setOnAction((e) -> loginButtonAction());
+        Button loginButton = createButton("LOGIN", "LoginButton", FONT30, (e) -> loginButtonAction());
         GridPane.setHalignment(loginButton, HPos.CENTER);
         GridPane.setValignment(loginButton, VPos.BASELINE);
         grid.add(loginButton, 2, 3);
 
-        Button registerButton = new Button("REGISTER");
-        registerButton.setId("RegisterButton");
-        registerButton.setFont(FONT30);
-        registerButton.setOnAction((e) -> registerButtonAction());
+        Button registerButton = createButton("REGISTER", "RegisterButton", FONT30, (e) -> registerButtonAction());
         GridPane.setHalignment(registerButton, HPos.CENTER);
         grid.add(registerButton, 2, 7);
     }
 
     private void playAsGuestButtonAction() {
         GamePlatform.setPlayerName("GUEST");
-        clearGrid();
+        clearGrid(grid, numberOfRows, numberOfColumns);
         MainMenu menu = new MainMenu(grid);
         grid = menu.newMainMenu();
     }
@@ -228,14 +133,13 @@ class LogPanel {
                 rightPlayerAndPassword = true;
                 break;
             }
-
         }
         if (!rightPlayerAndPassword) {
             ((Label) (grid.lookup("#LoginWarningsLabel"))).setText("Wrong Player Name or password!");
         } else {
             setLoggedIn(true);
             setPlayerName(inputLoginPlayer);
-            clearGrid();
+            clearGrid(grid, numberOfRows, numberOfColumns);
             MainMenu menu = new MainMenu(grid);
             grid = menu.newMainMenu();
         }
@@ -274,9 +178,5 @@ class LogPanel {
             ((TextField) (grid.lookup("#RegistrationPasswordField"))).setText("");
             ((TextField) (grid.lookup("#ConfirmRegistrationPasswordField"))).setText("");
         }
-
-
     }
-
-
 }

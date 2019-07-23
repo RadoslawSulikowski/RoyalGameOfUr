@@ -22,59 +22,48 @@ class Field extends ImageView {
         return isHighlighted;
     }
 
-    void setIsHighlighted() {
-        isHighlighted = true;
+    int getFieldNumber(String pawnColor){
+        if(pawnColor.equals("BLUE")){
+            return fieldNumberForBlue;
+        }
+        return fieldNumberForGreen;
     }
 
-    int getFieldNumberForGreen() {
-        return fieldNumberForGreen;
+    boolean getIsBusy(){
+        return (isBusyByBlue || isBusyByGreen);
+    }
+
+    boolean getIsBusy(String pawnColor){
+        if(pawnColor.equals("GREEN")){
+            return isBusyByGreen;
+        }
+        return isBusyByBlue;
+    }
+
+    void setIsHighlighted() {
+        isHighlighted = true;
     }
 
     void setFieldNumberForGreen(int fieldNumberForGreen) {
         this.fieldNumberForGreen = fieldNumberForGreen;
     }
 
-    int getFieldNumberForBlue() {
-        return fieldNumberForBlue;
-    }
-
     void setFieldNumberForBlue(int fieldNumberForBlue) {
         this.fieldNumberForBlue = fieldNumberForBlue;
     }
 
-    boolean getIsBusyByBlue() {
-        return isBusyByBlue;
-    }
-
     void setIsBusyByBlue(boolean busy) {
         isBusyByBlue = busy;
-
-    }
-
-    boolean getIsBusyByGreen() {
-        return isBusyByGreen;
     }
 
     void setIsBusyByGreen(boolean busy) {
-
         isBusyByGreen = busy;
     }
 
 
-    Pawn getBluePawnFromField(GridPane grid, int fieldNumber) {
-
+    Pawn getPawnFromField(GridPane grid, int fieldNumber, String pawnColor) {
         for (Node node : grid.getChildren()) {
-            if (node instanceof Pawn && (((Pawn) node).getPawnColor().equals("BLUE")) && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
-                return (Pawn) node;
-            }
-        }
-        return null;
-    }
-
-    Pawn getGreenPawnFromField(GridPane grid, int fieldNumber) {
-
-        for (Node node : grid.getChildren()) {
-            if (node instanceof Pawn && (((Pawn) node).getPawnColor().equals("GREEN")) && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
+            if (node instanceof Pawn && (((Pawn) node).getPawnColor().equals(pawnColor)) && (((Pawn) node).getPosition() == convertFieldNumberOtherColors(fieldNumber))) {
                 return (Pawn) node;
             }
         }
@@ -96,6 +85,4 @@ class Field extends ImageView {
         }
         return fieldNumber;
     }
-
-
 }

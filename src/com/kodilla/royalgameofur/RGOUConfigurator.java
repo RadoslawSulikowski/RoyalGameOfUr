@@ -6,10 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.GamePlatform.*;
+import static com.kodilla.Configurator.*;
 import static javafx.geometry.HPos.CENTER;
-import static javafx.scene.paint.Color.WHITE;
-
 
 class RGOUConfigurator {
 
@@ -24,102 +22,15 @@ class RGOUConfigurator {
     private Image imageBlueFinalBaseField = new Image("file:src/com/resources/blueFinalBaseField.png", true);
     private Image imageGreenFinalBaseField = new Image("file:src/com/resources/greenFinalBaseField.png", true);
 
-    Label whichTurnLabel = createWhichTurnLabel();
-    Label whichActionLabel = createWhichActionLabel();
-    Label warningsLabel = createWarningsLabelLabel();
-    Label gamesToPlayLabel = createGamesToPlayLabel();
-    Label scoresLabel = createScoresLabel();
-    Button rollButton = createRollButton();
-    Button mainMenuButton = createMainMenuButton();
-    Button newGameButton = createNewGameButton();
-    Button nextGameButton = createNextRoundButton();
-
-    private Label createWhichTurnLabel() {
-        Label whichTurnLabel = new Label();
-        whichTurnLabel.setId("WhichTurnLabel");
-        whichTurnLabel.setFont(FONT25);
-        whichTurnLabel.setMinWidth(300);
-        whichTurnLabel.setTextFill(WHITE);
-        return whichTurnLabel;
-    }
-
-    private Label createWhichActionLabel() {
-        Label whichActionLabel = new Label();
-        whichActionLabel.setId("WhichActionLabel");
-        whichActionLabel.setFont(FONT25);
-        whichActionLabel.setMinWidth(300);
-        whichActionLabel.setTextFill(WHITE);
-        whichActionLabel.setWrapText(true);
-        whichActionLabel.setText("ROLL to draw who will start");
-        return whichActionLabel;
-    }
-
-    private Label createWarningsLabelLabel() {
-        Label warningsLabel = new Label();
-        warningsLabel.setId("WarningsLabel");
-        warningsLabel.setFont(FONT15);
-        warningsLabel.setMinWidth(600);
-        warningsLabel.setTextFill(WHITE);
-        warningsLabel.setWrapText(true);
-        warningsLabel.setAlignment(Pos.BOTTOM_LEFT);
-        return warningsLabel;
-    }
-
-    private Label createGamesToPlayLabel() {
-        Label gamesToPlay = new Label();
-        gamesToPlay.setId("GameStatusLabel");
-        gamesToPlay.setFont(FONT25);
-        gamesToPlay.setMinWidth(300);
-        gamesToPlay.setTextFill(WHITE);
-        gamesToPlay.setWrapText(true);
-        gamesToPlay.setAlignment(Pos.BASELINE_LEFT);
-        return gamesToPlay;
-    }
-
-    private Label createScoresLabel() {
-        Label scoresLabel = new Label();
-        scoresLabel.setId("ScoresLabel");
-        scoresLabel.setFont(FONT25);
-        scoresLabel.setMinWidth(600);
-        scoresLabel.setTextFill(WHITE);
-        scoresLabel.setWrapText(true);
-        scoresLabel.setAlignment(Pos.BASELINE_CENTER);
-        return scoresLabel;
-    }
-
-    private Button createRollButton() {
-        Button roll = new Button("ROLL!!");
-        roll.setId("RollButton");
-        roll.setPrefWidth(300);
-        roll.setFont(FONT30);
-        return roll;
-    }
-
-    private Button createMainMenuButton() {
-        Button mainMenuButton = new Button("Main Menu");
-        mainMenuButton.setId("MainMenuButton");
-        mainMenuButton.setFont(FONT30);
-        mainMenuButton.setMinWidth(230);
-        return mainMenuButton;
-    }
-
-    private Button createNewGameButton() {
-        Button newGameButton = new Button("New game");
-        newGameButton.setId("NewGameButton");
-        newGameButton.setFont(FONT30);
-        newGameButton.setMinWidth(230);
-        return newGameButton;
-    }
-
-    private Button createNextRoundButton() {
-
-        Button nextRoundButton = new Button("Next round");
-        nextRoundButton.setId("NextRoundButton");
-        nextRoundButton.setFont(FONT30);
-        nextRoundButton.setMinWidth(230);
-        return nextRoundButton;
-    }
-
+    Label whichTurnLabel = createLabel("", "WhichTurnLabel", FONT25);
+    Label whichActionLabel = createLabel("ROLL to draw who will start", "WhichActionLabel", FONT25, true, Pos.BOTTOM_LEFT);
+    Label warningsLabel = createLabel("", "WarningsLabel", FONT15, true);
+    Label gamesToPlayLabel = createLabel("", "GameStatusLabel", FONT25, true, Pos.BASELINE_LEFT);
+    Label scoresLabel = createLabel("", "ScoresLabel", FONT25, true, Pos.BASELINE_CENTER, 600);
+    Button rollButton = createButton("ROLL!!", "RollButton", FONT30, 300);
+    Button mainMenuButton = createButton("Main Menu", "MainMenuButton", FONT30, 230);
+    Button newGameButton = createButton("New game", "NewGameButton", FONT30, 230);
+    Button nextGameButton = createButton("Next round", "NextRoundButton", FONT30, 230);
 
     private GridPane grid;
     private double numberOfRows = 8;
@@ -129,8 +40,16 @@ class RGOUConfigurator {
         this.grid = grid;
     }
 
+    double getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    double getNumberOfColumns() {
+        return numberOfColumns;
+    }
+
     void configure() {
-        setRowsAndColumns();
+        setRowsAndColumns(grid, numberOfRows, numberOfColumns);
         drawBoard();
         addPawns();
         addLabels();
@@ -138,145 +57,49 @@ class RGOUConfigurator {
         addButtons();
     }
 
-    void clearGrid() {
-        while (grid.getChildren().size() != 0) {
-            grid.getChildren().remove(grid.getChildren().get(0));
+    private Field createField(Image image, double width, int numberForGreen, int numberForBlue, boolean isHighlighted) {
+        Field field = new Field(image);
+        field.setFitWidth(width);
+        field.setPreserveRatio(true);
+        field.setFieldNumberForGreen(numberForGreen);
+        field.setFieldNumberForBlue(numberForBlue);
+        if (isHighlighted) {
+            field.setIsHighlighted();
         }
-        resetRowsAndColumns();
-    }
-
-    private void setRowsAndColumns() {
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(100.0 / numberOfColumns);
-        }
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(100.0 / numberOfRows);
-        }
-    }
-
-    private void resetRowsAndColumns() {
-
-        for (int i = 0; i < numberOfRows; i++) {
-            grid.getRowConstraints().get(i).setPercentHeight(0);
-        }
-        for (int i = 0; i < numberOfColumns; i++) {
-            grid.getColumnConstraints().get(i).setPercentWidth(0);
-        }
+        return field;
     }
 
     private void drawBoard() {
         double width = 100;
 
-        Field greenHomeBaseField = new Field(imageGreenHomeBaseField);
-        greenHomeBaseField.setFitWidth(width);
-        greenHomeBaseField.setPreserveRatio(true);
-        greenHomeBaseField.setFieldNumberForGreen(1);
-        grid.add(greenHomeBaseField, 7, 3);
-
-        Field blueHomeBaseField = new Field(imageBlueHomeBaseField);
-        blueHomeBaseField.setFitWidth(width);
-        blueHomeBaseField.setPreserveRatio(true);
-        blueHomeBaseField.setFieldNumberForBlue(1);
-        grid.add(blueHomeBaseField, 7, 5);
-
-        Field greenFinalBaseField = new Field(imageGreenFinalBaseField);
-        greenFinalBaseField.setFitWidth(width);
-        greenFinalBaseField.setPreserveRatio(true);
-        greenFinalBaseField.setFieldNumberForGreen(18);
-        grid.add(greenFinalBaseField, 8, 3);
-
-        Field blueFinalBaseField = new Field(imageBlueFinalBaseField);
-        blueFinalBaseField.setFitWidth(width);
-        blueFinalBaseField.setPreserveRatio(true);
-        blueFinalBaseField.setFieldNumberForBlue(18);
-        grid.add(blueFinalBaseField, 8, 5);
+        grid.add(createField(imageGreenHomeBaseField, width, 1, 0, false), 7, 3);
+        grid.add(createField(imageBlueHomeBaseField, width, 0, 1, false), 7, 5);
+        grid.add(createField(imageGreenFinalBaseField, width, 18, 0, false), 8, 3);
+        grid.add(createField(imageBlueFinalBaseField, width, 0, 18, false), 8, 5);
 
         for (int i = 4; i < 7; i++) {
-            Field greenField = new Field(imageGreenField);
-            greenField.setFitWidth(width);
-            greenField.setPreserveRatio(true);
-            greenField.setFieldNumberForGreen(8 - i);
-            grid.add(greenField, i, 3);
+            grid.add(createField(imageGreenField, width, 8 - i, 0, false), i, 3);
         }
         for (int i = 4; i < 7; i++) {
-            Field blueField = new Field(imageBlueField);
-            blueField.setFitWidth(width);
-            blueField.setPreserveRatio(true);
-            blueField.setFieldNumberForBlue(8 - i);
-            grid.add(blueField, i, 5);
+            grid.add(createField(imageBlueField, width, 0, 8 - i, false), i, 5);
         }
         for (int i = 3; i < 11; i++) {
             if (i == 6) {
                 continue;
             }
-            Field yellowField = new Field(imageYellowField);
-            yellowField.setFitWidth(width);
-            yellowField.setPreserveRatio(true);
-
             if (i < 10) {
-                yellowField.setFieldNumberForGreen(i + 3);
-                yellowField.setFieldNumberForBlue(i + 3);
+                grid.add(createField(imageYellowField, width, i + 3, i + 3, false), i, 4);
             } else {
-                yellowField.setFieldNumberForGreen(15);
-                yellowField.setFieldNumberForBlue(15);
+                grid.add(createField(imageYellowField, width, 15, 15, false), i, 4);
             }
-            grid.add(yellowField, i, 4);
         }
-
-        Field yellowField = new Field(imageYellowField);
-        yellowField.setFitWidth(width);
-        yellowField.setPreserveRatio(true);
-        yellowField.setFieldNumberForGreen(16);
-        yellowField.setFieldNumberForBlue(14);
-        grid.add(yellowField, 10, 3);
-
-        Field yellowField1 = new Field(imageYellowField);
-        yellowField1.setFitWidth(width);
-        yellowField1.setPreserveRatio(true);
-        yellowField1.setFieldNumberForGreen(14);
-        yellowField1.setFieldNumberForBlue(16);
-        grid.add(yellowField1, 10, 5);
-
-        Field highlightedYellowField = new Field(imageHighlightedYellowField);
-        highlightedYellowField.setFitWidth(width);
-        highlightedYellowField.setIsHighlighted();
-        highlightedYellowField.setPreserveRatio(true);
-        highlightedYellowField.setFieldNumberForGreen(9);
-        highlightedYellowField.setFieldNumberForBlue(9);
-
-        Field highlightedYellowField1 = new Field(imageHighlightedYellowField);
-        highlightedYellowField1.setFitWidth(width);
-        highlightedYellowField1.setIsHighlighted();
-        highlightedYellowField1.setPreserveRatio(true);
-        highlightedYellowField1.setFieldNumberForGreen(17);
-        highlightedYellowField1.setFieldNumberForBlue(13);
-
-        Field highlightedYellowField2 = new Field(imageHighlightedYellowField);
-        highlightedYellowField2.setFitWidth(width);
-        highlightedYellowField2.setIsHighlighted();
-        highlightedYellowField2.setPreserveRatio(true);
-        highlightedYellowField2.setFieldNumberForGreen(13);
-        highlightedYellowField2.setFieldNumberForBlue(17);
-
-        Field highlightedBlueField = new Field(imageHighlightedBlueField);
-        highlightedBlueField.setFitWidth(width);
-        highlightedBlueField.setIsHighlighted();
-        highlightedBlueField.setPreserveRatio(true);
-        highlightedBlueField.setFieldNumberForBlue(5);
-
-        Field highlightedGreenField = new Field(imageHighlightedGreenField);
-        highlightedGreenField.setFitWidth(width);
-        highlightedGreenField.setIsHighlighted();
-        highlightedGreenField.setPreserveRatio(true);
-        highlightedGreenField.setFieldNumberForGreen(5);
-
-        grid.add(highlightedYellowField, 6, 4);
-        grid.add(highlightedYellowField1, 9, 3);
-        grid.add(highlightedYellowField2, 9, 5);
-        grid.add(highlightedBlueField, 3, 5);
-        grid.add(highlightedGreenField, 3, 3);
-
-
+        grid.add(createField(imageYellowField, width, 16, 14, false), 10, 3);
+        grid.add(createField(imageYellowField, width, 14, 16, false), 10, 5);
+        grid.add(createField(imageHighlightedYellowField, width, 9, 9, true), 6, 4);
+        grid.add(createField(imageHighlightedYellowField, width, 17, 13, true), 9, 3);
+        grid.add(createField(imageHighlightedYellowField, width, 13, 17, true), 9, 5);
+        grid.add(createField(imageHighlightedGreenField, width, 5, 0, true), 3, 3);
+        grid.add(createField(imageHighlightedBlueField, width, 0, 5, true), 3, 5);
     }
 
     private void addPawns() {
@@ -326,5 +149,4 @@ class RGOUConfigurator {
         grid.add(mainMenuButton, 12, 4, 3, 1);
         grid.add(newGameButton, 12, 5, 3, 1);
     }
-
 }

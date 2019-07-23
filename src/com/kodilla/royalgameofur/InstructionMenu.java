@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.GamePlatform.FONT30;
+import static com.kodilla.Configurator.FONT30;
 import static javafx.geometry.HPos.CENTER;
 
 public class InstructionMenu {
