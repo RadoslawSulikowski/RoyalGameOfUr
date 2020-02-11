@@ -32,7 +32,7 @@ public class MainMenu {
         Label mainMenuLabel = createLabel("Select Game:", "MainMenuLabel", FONT25);
         grid.add(mainMenuLabel, 4, 2);
 
-        Label royalGameOfUrLabel = createLabel("Select Game:", "MainMenuLabel", FONT20);
+        Label royalGameOfUrLabel = createLabel("Royal Game of Uhr:", "MainMenuLabel", FONT20);
         grid.add(royalGameOfUrLabel, 2, 4);
 
         Label logInfoLabel = createLabel("You're playing as " + GamePlatform.getPlayerName(), "LogLabel", FONT15, true);
