@@ -1,7 +1,9 @@
 HELP.md
 .gradle
-/build/
+build/
 !gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -17,10 +19,9 @@ HELP.md
 *.iws
 *.iml
 *.ipr
-/out/
+out/
 **/out/
 **/build/
-git remote add origin https://github.com/RadoslawSulikowski/radoslaw-sulikowski-kodilla-java.git**/build/
 
 ### NetBeans ###
 /nbproject/private/

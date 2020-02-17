@@ -1,4 +1,4 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -6,21 +6,21 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.Configurator.*;
+import static com.gameplatform.Configurator.*;
 import static javafx.geometry.HPos.CENTER;
 
 class RGOUConfigurator {
 
-    private Image imageBlueField = new Image("file:src/com/resources/blueField.png", true);
-    private Image imageGreenField = new Image("file:src/com/resources/greenField.png", true);
-    private Image imageHighlightedYellowField = new Image("file:src/com/resources/highlightedYellowField.png", true);
-    private Image imageHighlightedBlueField = new Image("file:src/com/resources/highlightedBlueField.png", true);
-    private Image imageHighlightedGreenField = new Image("file:src/com/resources/highlightedGreenField.png", true);
-    private Image imageYellowField = new Image("file:src/com/resources/yellowField.png", true);
-    private Image imageBlueHomeBaseField = new Image("file:src/com/resources/blueHomeBaseField.png", true);
-    private Image imageGreenHomeBaseField = new Image("file:src/com/resources/greenHomeBaseField.png", true);
-    private Image imageBlueFinalBaseField = new Image("file:src/com/resources/blueFinalBaseField.png", true);
-    private Image imageGreenFinalBaseField = new Image("file:src/com/resources/greenFinalBaseField.png", true);
+    private Image imageBlueField = new Image("file:src/main/resources/blueField.png", true);
+    private Image imageGreenField = new Image("file:src/main/resources/greenField.png", true);
+    private Image imageHighlightedYellowField = new Image("file:src/main/resources/highlightedYellowField.png", true);
+    private Image imageHighlightedBlueField = new Image("file:src/main/resources/highlightedBlueField.png", true);
+    private Image imageHighlightedGreenField = new Image("file:src/main/resources/highlightedGreenField.png", true);
+    private Image imageYellowField = new Image("file:src/main/resources/yellowField.png", true);
+    private Image imageBlueHomeBaseField = new Image("file:src/main/resources/blueHomeBaseField.png", true);
+    private Image imageGreenHomeBaseField = new Image("file:src/main/resources/greenHomeBaseField.png", true);
+    private Image imageBlueFinalBaseField = new Image("file:src/main/resources/blueFinalBaseField.png", true);
+    private Image imageGreenFinalBaseField = new Image("file:src/main/resources/greenFinalBaseField.png", true);
 
     Label whichTurnLabel = createLabel("", "WhichTurnLabel", FONT25);
     Label whichActionLabel = createLabel("ROLL to draw who will start", "WhichActionLabel", FONT25, true, Pos.BOTTOM_LEFT);

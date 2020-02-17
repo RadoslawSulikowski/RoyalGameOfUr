@@ -1,4 +1,4 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
 import javafx.scene.control.Button;
 import javafx.scene.shape.Circle;

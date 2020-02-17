@@ -1,4 +1,4 @@
-package com.kodilla;
+package com.gameplatform;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -14,8 +14,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
-import static com.kodilla.Configurator.*;
-import static com.kodilla.GamePlatform.*;
+import static com.gameplatform.Configurator.*;
+import static com.gameplatform.GamePlatform.*;
 
 class LogPanel {
 
@@ -115,7 +115,7 @@ class LogPanel {
     }
 
     private void playAsGuestButtonAction() {
-        GamePlatform.setPlayerName("GUEST");
+        setPlayerName("GUEST");
         clearGrid(grid, numberOfRows, numberOfColumns);
         MainMenu menu = new MainMenu(grid);
         grid = menu.newMainMenu();
@@ -128,7 +128,7 @@ class LogPanel {
 
         ((Label) (grid.lookup("#RegistrationWarningsLabel"))).setText("");
 
-        for (Map.Entry entry : GamePlatform.getPlayersMap().entrySet()) {
+        for (Map.Entry entry : getPlayersMap().entrySet()) {
             if (entry.getKey().equals(inputLoginPlayer) && entry.getValue().equals(inputLoginPassword)) {
                 rightPlayerAndPassword = true;
                 break;

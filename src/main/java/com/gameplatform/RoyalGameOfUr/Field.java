@@ -1,4 +1,4 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
 
 import javafx.scene.Node;
@@ -22,19 +22,19 @@ class Field extends ImageView {
         return isHighlighted;
     }
 
-    int getFieldNumber(String pawnColor){
-        if(pawnColor.equals("BLUE")){
+    int getFieldNumber(String pawnColor) {
+        if (pawnColor.equals("BLUE")) {
             return fieldNumberForBlue;
         }
         return fieldNumberForGreen;
     }
 
-    boolean getIsBusy(){
+    boolean getIsBusy() {
         return (isBusyByBlue || isBusyByGreen);
     }
 
-    boolean getIsBusy(String pawnColor){
-        if(pawnColor.equals("GREEN")){
+    boolean getIsBusy(String pawnColor) {
+        if (pawnColor.equals("GREEN")) {
             return isBusyByGreen;
         }
         return isBusyByBlue;

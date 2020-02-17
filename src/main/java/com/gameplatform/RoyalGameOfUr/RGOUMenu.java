@@ -1,13 +1,13 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
-import com.kodilla.MainMenu;
+import com.gameplatform.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.Configurator.*;
+import static com.gameplatform.Configurator.*;
 
 public class RGOUMenu {
 
@@ -18,7 +18,7 @@ public class RGOUMenu {
     private Button oneRoundButton = createButton("1 ROUND", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
     private Button threeRoundsButton = createButton("3 ROUNDS", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
     private Button fiveRoundsButton = createButton("5 ROUNDS", FONT30, 250, e -> gameModeButtonAction((ActionEvent) e));
-    private Button normalGameButton = createButton("NORMAL", FONT30, 150, e -> normalGameButtonAction());
+    private Button easyGameButton = createButton("EASY", FONT30, 150, e -> easyGameButtonAction());
     private Button hardGameButton = createButton("HARD", FONT30, 150, e -> hardGameButtonAction());
 
     private GridPane grid;
@@ -75,7 +75,7 @@ public class RGOUMenu {
             GridPane.setHalignment(fiveRoundsButton, HPos.CENTER);
         }
 
-        grid.getChildren().remove(normalGameButton);
+        grid.getChildren().remove(easyGameButton);
         grid.getChildren().remove(hardGameButton);
 
         if (!grid.getChildren().contains(onePlayerButton)) {
@@ -90,7 +90,7 @@ public class RGOUMenu {
         }
     }
 
-    private void normalGameButtonAction() {
+    private void easyGameButtonAction() {
         clearGrid(grid, numberOfRows, numberOfColumns);
         RoyalGameOfUr royalGameOfUr = new RoyalGameOfUr(grid, roundsToPlay, true, false);
         grid = royalGameOfUr.newGame();
@@ -106,11 +106,11 @@ public class RGOUMenu {
         grid.getChildren().remove(twoPlayersButton);
         GridPane.setConstraints(onePlayerButton, 3, 6);
 
-        if (!grid.getChildren().contains(normalGameButton) && !grid.getChildren().contains(normalGameButton)) {
-            grid.add(normalGameButton, 2, 9);
+        if (!grid.getChildren().contains(easyGameButton) && !grid.getChildren().contains(easyGameButton)) {
+            grid.add(easyGameButton, 2, 9);
             grid.add(hardGameButton, 4, 9);
         }
-        GridPane.setHalignment(normalGameButton, HPos.CENTER);
+        GridPane.setHalignment(easyGameButton, HPos.CENTER);
         GridPane.setHalignment(hardGameButton, HPos.CENTER);
     }
 

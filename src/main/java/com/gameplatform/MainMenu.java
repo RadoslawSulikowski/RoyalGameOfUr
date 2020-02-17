@@ -1,15 +1,15 @@
-package com.kodilla;
+package com.gameplatform;
 
-import com.kodilla.royalgameofur.InstructionMenu;
-import com.kodilla.royalgameofur.RGOUHighScores;
-import com.kodilla.royalgameofur.RGOUMenu;
+import com.gameplatform.RoyalGameOfUr.InstructionMenu;
+import com.gameplatform.RoyalGameOfUr.RGOUHighScores;
+import com.gameplatform.RoyalGameOfUr.RGOUMenu;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.Configurator.*;
+import static com.gameplatform.Configurator.*;
 
 public class MainMenu {
     private GridPane grid;

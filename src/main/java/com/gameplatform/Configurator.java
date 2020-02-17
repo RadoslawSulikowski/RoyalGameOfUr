@@ -1,7 +1,6 @@
-package com.kodilla;
+package com.gameplatform;
 
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -86,7 +85,7 @@ public class Configurator {
         return label;
     }
 
-    public static Button createButton(String text, String id, Font font, double minWidth){
+    public static Button createButton(String text, String id, Font font, double minWidth) {
         Button button = new Button(text);
         button.setId(id);
         button.setFont(font);
@@ -96,7 +95,7 @@ public class Configurator {
         return button;
     }
 
-    public static Button createButton(String text, String id, Font font, EventHandler action){
+    public static Button createButton(String text, String id, Font font, EventHandler action) {
         Button button = new Button(text);
         button.setId(id);
         button.setFont(font);
@@ -105,7 +104,7 @@ public class Configurator {
         return button;
     }
 
-    public static Button createButton(String text, Font font, double minWidth, EventHandler action){
+    public static Button createButton(String text, Font font, double minWidth, EventHandler action) {
         Button button = new Button(text);
         button.setFont(font);
         button.setMinWidth(minWidth);
@@ -115,7 +114,7 @@ public class Configurator {
         return button;
     }
 
-    public static Button createButton(String text, String id, Font font, double minWidth, EventHandler action){
+    public static Button createButton(String text, String id, Font font, double minWidth, EventHandler action) {
         Button button = new Button(text);
         button.setId(id);
         button.setFont(font);
