@@ -1,4 +1,4 @@
-package com.kodilla;
+package com.gameplatform;
 
 import java.io.Serializable;
 

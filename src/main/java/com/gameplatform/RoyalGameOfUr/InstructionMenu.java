@@ -1,17 +1,17 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
-import com.kodilla.MainMenu;
+import com.gameplatform.MainMenu;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.Configurator.FONT30;
+import static com.gameplatform.Configurator.FONT30;
 import static javafx.geometry.HPos.CENTER;
 
 public class InstructionMenu {
-    private Image page1 = new Image("file:src/com/resources/page1.png", true);
-    private Image page2 = new Image("file:src/com/resources/page2.png", true);
+    private Image page1 = new Image("file:src/main/resources/page1.png", true);
+    private Image page2 = new Image("file:src/main/resources/page2.png", true);
 
     private Button nextButton = createNextButton();
     private Button previousButton = createPreviousButton();

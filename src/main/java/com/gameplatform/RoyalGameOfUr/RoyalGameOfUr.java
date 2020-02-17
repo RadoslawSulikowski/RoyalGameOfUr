@@ -1,7 +1,7 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
-import com.kodilla.HighScore;
-import com.kodilla.MainMenu;
+import com.gameplatform.HighScore;
+import com.gameplatform.MainMenu;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,11 +11,11 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Random;
 
+import static com.gameplatform.Configurator.clearGrid;
+import static com.gameplatform.GamePlatform.*;
 import static javafx.scene.layout.GridPane.setConstraints;
-import static javafx.scene.paint.Color.*;
+import static javafx.scene.paint.Color.GOLD;
 import static javafx.scene.paint.Color.SILVER;
-import static com.kodilla.GamePlatform.*;
-import static com.kodilla.Configurator.*;
 
 class RoyalGameOfUr {
     private GridPane grid;

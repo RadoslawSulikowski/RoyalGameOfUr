@@ -1,8 +1,8 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
 import javafx.scene.shape.Circle;
 
-import static javafx.scene.paint.Color.*;
+import static javafx.scene.paint.Color.BLACK;
 
 class Coin extends Circle {
 

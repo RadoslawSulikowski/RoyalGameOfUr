@@ -1,15 +1,15 @@
-package com.kodilla;
+package com.gameplatform;
 
-import com.kodilla.royalgameofur.InstructionMenu;
-import com.kodilla.royalgameofur.RGOUHighScores;
-import com.kodilla.royalgameofur.RGOUMenu;
+import com.gameplatform.RoyalGameOfUr.InstructionMenu;
+import com.gameplatform.RoyalGameOfUr.RGOUHighScores;
+import com.gameplatform.RoyalGameOfUr.RGOUMenu;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
-import static com.kodilla.Configurator.*;
+import static com.gameplatform.Configurator.*;
 
 public class MainMenu {
     private GridPane grid;
@@ -32,7 +32,7 @@ public class MainMenu {
         Label mainMenuLabel = createLabel("Select Game:", "MainMenuLabel", FONT25);
         grid.add(mainMenuLabel, 4, 2);
 
-        Label royalGameOfUrLabel = createLabel("Select Game:", "MainMenuLabel", FONT20);
+        Label royalGameOfUrLabel = createLabel("Royal Game of Uhr:", "MainMenuLabel", FONT20);
         grid.add(royalGameOfUrLabel, 2, 4);
 
         Label logInfoLabel = createLabel("You're playing as " + GamePlatform.getPlayerName(), "LogLabel", FONT15, true);

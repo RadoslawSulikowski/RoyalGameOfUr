@@ -1,7 +1,7 @@
-package com.kodilla.royalgameofur;
+package com.gameplatform.RoyalGameOfUr;
 
-import com.kodilla.HighScore;
-import com.kodilla.MainMenu;
+import com.gameplatform.HighScore;
+import com.gameplatform.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
@@ -9,10 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.kodilla.Configurator.*;
-import static com.kodilla.GamePlatform.*;
+import static com.gameplatform.Configurator.*;
+import static com.gameplatform.GamePlatform.*;
 import static javafx.scene.paint.Color.*;
 
 public class RGOUHighScores {

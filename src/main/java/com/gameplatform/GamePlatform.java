@@ -1,4 +1,4 @@
-package com.kodilla;
+package com.gameplatform;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,7 +8,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class GamePlatform extends Application {
@@ -22,7 +25,7 @@ public class GamePlatform extends Application {
     private static File threeGameHighScoresListFle = new File("threeGameHighScoresListFle");
     private static File fiveGameHighScoresListFile = new File("fiveGameHighScoresListFile");
 
-    private Image imageBack = new Image("file:src/com/resources/background.png", true);
+    private Image imageBack = new Image("file:src/main/resources/background.png", true);
     private GridPane grid = new GridPane();
     private static boolean loggedIn = false;
     private static String playerName = "";
