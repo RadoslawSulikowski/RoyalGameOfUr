@@ -3,6 +3,7 @@ package com.gameplatform;
 import com.gameplatform.RoyalGameOfUr.InstructionMenu;
 import com.gameplatform.RoyalGameOfUr.RGOUHighScores;
 import com.gameplatform.RoyalGameOfUr.RGOUMenu;
+import com.gameplatform.sudokuSolver.SudokuSolver;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -32,8 +33,11 @@ public class MainMenu {
         Label mainMenuLabel = createLabel("Select Game:", "MainMenuLabel", FONT25);
         grid.add(mainMenuLabel, 4, 2);
 
-        Label royalGameOfUrLabel = createLabel("Royal Game of Uhr:", "MainMenuLabel", FONT20);
+        Label royalGameOfUrLabel = createLabel("Royal Game of Uhr:", "RGOULabel", FONT20);
         grid.add(royalGameOfUrLabel, 2, 4);
+
+        Label sudokuSolverLabel = createLabel("Sudoku Solver:", "SudokuSolverLabel", FONT20);
+        grid.add(sudokuSolverLabel, 2, 6);
 
         Label logInfoLabel = createLabel("You're playing as " + GamePlatform.getPlayerName(), "LogLabel", FONT15, true);
         logInfoLabel.setAlignment(Pos.CENTER_RIGHT);
@@ -55,6 +59,10 @@ public class MainMenu {
                 createButton("HighScores", "RGOUHighScoresButton", FONT20, (e) -> royalGameOfUrHighScoresButtonAction());
         GridPane.setHalignment(royalGameOfUrHighScoresButton, HPos.RIGHT);
         grid.add(royalGameOfUrHighScoresButton, 6, 4);
+
+        Button sudokuSolverButton = createButton("SOLVER", "RunSudokuSolverButton", FONT20, (e) -> runSudokuSolverAction());
+        GridPane.setHalignment(sudokuSolverButton, HPos.LEFT);
+        grid.add(sudokuSolverButton, 4, 6);
 
         Button logButton = createButton("", "LogButton", FONT15, (e) -> logButtonAction());
         if (GamePlatform.getLoggedIn()) {
@@ -96,5 +104,11 @@ public class MainMenu {
         clearGrid(grid, numberOfRows, numberOfColumns);
         RGOUHighScores highScores = new RGOUHighScores(grid);
         grid = highScores.newHighScores();
+    }
+
+    private void runSudokuSolverAction() {
+        clearGrid(grid, numberOfRows, numberOfColumns);
+        SudokuSolver sudokuSolver = new SudokuSolver(grid);
+        grid = sudokuSolver.newSolver();
     }
 }
