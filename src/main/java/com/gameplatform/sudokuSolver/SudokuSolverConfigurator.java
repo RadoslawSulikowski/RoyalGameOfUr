@@ -1,19 +1,15 @@
 package com.gameplatform.sudokuSolver;
 
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.TextAlignment;
 
 import static com.gameplatform.Configurator.*;
-import static javafx.scene.layout.GridPane.setMargin;
 import static javafx.scene.paint.Color.BLACK;
-import static javafx.scene.paint.Color.WHITE;
 
 public class SudokuSolverConfigurator {
 
@@ -40,6 +36,7 @@ public class SudokuSolverConfigurator {
     public void configure() {
         setRowsAndColumns(grid, numberOfRows, numberOfColumns);
         drawBoard();
+        addButtons();
     }
 
 
@@ -65,7 +62,8 @@ public class SudokuSolverConfigurator {
                 button.setTextAlignment(TextAlignment.CENTER);
                 button.setTextFill(BLACK);
                 if (section % 2 != 0) {
-                    button.setStyle("-fx-base: lightblue;");
+                    button.setStyle("-fx-base: lightblue;" +
+                            "-fx-hover: darkblue;");
                 }
                 grid.add(button, i, j);
             }
@@ -74,8 +72,17 @@ public class SudokuSolverConfigurator {
 
     private void addButtons() {
         final ToggleGroup numberButtons = new ToggleGroup();
-        for(int i = 0; i < 10; i++) {
-            ToggleButton button = createToggleButton("" + i, i + "button", FONT15, 49);
+        for (int i = 1; i < 11; i++) {
+            ToggleButton button = createToggleButton("" + i, i + "button", FONT15, 46);
+            button.setToggleGroup(numberButtons);
+            button.setMinHeight(46);
+            button.setTextAlignment(TextAlignment.CENTER);
+            button.setTextFill(BLACK);
+            if (i == 10) {
+                button.setText("");
+                button.setGraphic(new ImageView( new Image("file:src/main/resources/eraser.jpg", true)));
+            }
+            grid.add(button, 8 + i, 12);
         }
     }
 }

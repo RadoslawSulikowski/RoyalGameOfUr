@@ -72,7 +72,7 @@ class SudokuField {
         this.userValue = userValue;
     }
 
-    SudokuField copyField(){
+    SudokuField copyField() {
         SudokuField copy = new SudokuField();
 
         copy.setValue(this.value);
