@@ -62,8 +62,7 @@ public class SudokuSolverConfigurator {
                 button.setTextAlignment(TextAlignment.CENTER);
                 button.setTextFill(BLACK);
                 if (section % 2 != 0) {
-                    button.setStyle("-fx-base: lightblue;" +
-                            "-fx-hover: darkblue;");
+                    button.setStyle("-fx-base: lightblue;");
                 }
                 grid.add(button, i, j);
             }
