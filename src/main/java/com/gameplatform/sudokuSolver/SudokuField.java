@@ -3,7 +3,6 @@ package com.gameplatform.sudokuSolver;
 import java.util.ArrayList;
 import java.util.List;
 
-
 class SudokuField {
     static final int EMPTY = 0;
     private int value;

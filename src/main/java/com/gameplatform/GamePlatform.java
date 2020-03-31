@@ -160,6 +160,7 @@ public class GamePlatform extends Application {
         grid = logPanel.newLogPanel();
 
         Scene scene = new Scene(grid, 1500, 800, Color.BLACK);
+        scene.getStylesheets().add("styles.css");
         primaryStage.setTitle("GamePlatform");
         primaryStage.setScene(scene);
         primaryStage.show();

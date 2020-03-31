@@ -13,7 +13,7 @@ public class SudokuBoard {
     private SudokuField[] board = new SudokuField[81];
 
 
-    SudokuField[] getBoard() {
+    private SudokuField[] getBoard() {
         return board;
     }
 
@@ -85,7 +85,7 @@ public class SudokuBoard {
         return false;
     }
 
-    boolean hasNoDuplicateValuesInRowColumnOrSection() {
+    boolean hasDuplicateValuesInRowColumnOrSection() {
 
         List<Integer> lR = new ArrayList<>();
         List<Integer> lC = new ArrayList<>();
@@ -107,14 +107,14 @@ public class SudokuBoard {
                 if (lR.indexOf(j) != lR.lastIndexOf(j)
                         || lC.indexOf(j) != lC.lastIndexOf(j)
                         || lS.indexOf(j) != lS.lastIndexOf(j)) {
-                    return false;
+                    return true;
                 }
             }
             lR.clear();
             lC.clear();
             lS.clear();
         }
-        return true;
+        return false;
     }
 
     private void removeCandidateFromRowColumnSection(int filledFieldIndex) {
@@ -220,7 +220,7 @@ public class SudokuBoard {
     }
 
     boolean solve() {
-        if (!hasNoDuplicateValuesInRowColumnOrSection()) {
+        if (hasDuplicateValuesInRowColumnOrSection()) {
             return false;
         }
         Deque<Backtrack> backtracks = new ArrayDeque<>();

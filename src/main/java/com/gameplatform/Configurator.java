@@ -2,7 +2,10 @@ package com.gameplatform;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -13,7 +16,6 @@ import static javafx.scene.paint.Color.WHITE;
 
 public class Configurator {
 
-    public static final Font FONT10 = Font.font("ALGERIAN", FontWeight.BOLD, 10);
     public static final Font FONT15 = Font.font("ALGERIAN", FontWeight.BOLD, 15);
     public static final Font FONT20 = Font.font("ALGERIAN", FontWeight.BOLD, 20);
     public static final Font FONT25 = Font.font("ALGERIAN", FontWeight.BOLD, 25);
@@ -85,16 +87,7 @@ public class Configurator {
 
     public static Button createButton(String text, String id, Font font, double minWidth) {
         Button button = new Button(text);
-        button.setId(id);
-        button.setFont(font);
-        button.setMinWidth(minWidth);
-        button.setTextAlignment(TextAlignment.CENTER);
-
-        return button;
-    }
-
-    public static ToggleButton createToggleButton(String text, String id, Font font, double minWidth) {
-        ToggleButton button = new ToggleButton(text);
+        button.getStyleClass().add("grey-button");
         button.setId(id);
         button.setFont(font);
         button.setMinWidth(minWidth);
@@ -105,6 +98,7 @@ public class Configurator {
 
     public static Button createButton(String text, String id, Font font, EventHandler action) {
         Button button = new Button(text);
+        button.getStyleClass().add("grey-button");
         button.setId(id);
         button.setFont(font);
         button.setOnAction(action);
@@ -114,6 +108,7 @@ public class Configurator {
 
     public static Button createButton(String text, Font font, double minWidth, EventHandler action) {
         Button button = new Button(text);
+        button.getStyleClass().add("grey-button");
         button.setFont(font);
         button.setMinWidth(minWidth);
         button.setTextAlignment(TextAlignment.CENTER);
@@ -123,12 +118,8 @@ public class Configurator {
     }
 
     public static Button createButton(String text, String id, Font font, double minWidth, EventHandler action) {
-        Button button = new Button(text);
+        Button button = createButton(text, font, minWidth, action);
         button.setId(id);
-        button.setFont(font);
-        button.setMinWidth(minWidth);
-        button.setTextAlignment(TextAlignment.CENTER);
-        button.setOnAction(action);
 
         return button;
     }
@@ -142,10 +133,7 @@ public class Configurator {
     }
 
     public static TextField createTextField(String id, int maxWidth) {
-        TextField textField = new TextField();
-        textField.setText("");
-        textField.setPromptText("Player Name");
-        textField.setId(id);
+        TextField textField = createTextField(id);
         textField.setMaxWidth(maxWidth);
 
         return textField;
@@ -159,10 +147,7 @@ public class Configurator {
     }
 
     public static PasswordField createPasswordField(String id, int maxWidth) {
-        PasswordField passwordField = new PasswordField();
-        passwordField.setText("");
-        passwordField.setPromptText("Password");
-        passwordField.setId(id);
+        PasswordField passwordField = createPasswordField(id);
         passwordField.setMaxWidth(maxWidth);
         return passwordField;
     }
