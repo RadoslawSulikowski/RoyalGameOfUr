@@ -55,6 +55,15 @@ class RoyalGameOfUr {
         configurator.gamesToPlayLabel.setText("GAMES TO PLAY:    " + roundsToPlay);
         configurator.scoresLabel.setText("GREEN    " + greenPoints + " : " + bluePoints + "    BLUE");
         setWhichPlayerTurn("GREEN");
+//        configurator.whichTurnLabel.textProperty().addListener(new ChangeListener<String>() {
+//            @Override
+//            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+//
+//                if (onePlayerGame && whichPlayerTurn.equals("BLUE") && bluePawnsAtFinish != 7 && greenPawnsAtFinish != 7) {
+//                    computerMove();
+//                }
+//            }
+//        });
         grid.setOnMouseMoved(e -> {
             if (onePlayerGame && whichPlayerTurn.equals("BLUE") && bluePawnsAtFinish != 7 && greenPawnsAtFinish != 7) {
                 computerMove();

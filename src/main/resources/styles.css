@@ -1,0 +1,35 @@
+.grey-button {
+    -fx-background-color: "DCDCDC";
+    -webkit-fx-font-color: black;
+}
+
+.grey-button:hover {
+    -fx-background-color: "666666";
+}
+
+.grey-button:selected {
+    -fx-background-color: "999999";
+}
+
+.blue-button {
+    -fx-background-color: "ADD8E6";
+}
+
+.blue-button:hover {
+    -fx-background-color: "2E485E";
+}
+
+.blue-button:selected {
+    -fx-background-color: "6B92E6";
+}
+
+.red-button {
+    -fx-background-color: "703224";
+    -webkit-fx-font-color: "A60000";
+}
+
+.green-button {
+    -fx-background-color: "90EE90";
+    -webkit-fx-font-color: "49744B";
+}
+
