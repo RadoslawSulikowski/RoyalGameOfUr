@@ -1,11 +1,11 @@
-package com.gameplatform.sudokuSolver;
+package com.gameplatform.sudokusolver;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-import static com.gameplatform.sudokuSolver.SudokuField.EMPTY;
+import static com.gameplatform.sudokusolver.SudokuField.EMPTY;
 
 
 public class SudokuBoard {

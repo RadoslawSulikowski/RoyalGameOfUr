@@ -1,4 +1,4 @@
-package com.gameplatform.RoyalGameOfUr;
+package com.gameplatform.royalgameofur;
 
 import javafx.scene.shape.Circle;
 

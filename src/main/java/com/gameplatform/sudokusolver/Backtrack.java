@@ -1,4 +1,4 @@
-package com.gameplatform.sudokuSolver;
+package com.gameplatform.sudokusolver;
 
 public final class Backtrack {
     private final SudokuBoard board;

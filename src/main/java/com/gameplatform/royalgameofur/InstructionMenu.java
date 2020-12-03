@@ -1,4 +1,4 @@
-package com.gameplatform.RoyalGameOfUr;
+package com.gameplatform.royalgameofur;
 
 import com.gameplatform.MainMenu;
 import javafx.scene.control.Button;

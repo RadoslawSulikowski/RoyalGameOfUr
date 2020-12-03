@@ -1,9 +1,9 @@
 package com.gameplatform;
 
-import com.gameplatform.RoyalGameOfUr.InstructionMenu;
-import com.gameplatform.RoyalGameOfUr.RGOUHighScores;
-import com.gameplatform.RoyalGameOfUr.RGOUMenu;
-import com.gameplatform.sudokuSolver.SudokuSolver;
+import com.gameplatform.royalgameofur.InstructionMenu;
+import com.gameplatform.royalgameofur.RGOUHighScores;
+import com.gameplatform.royalgameofur.RGOUMenu;
+import com.gameplatform.sudokusolver.SudokuSolver;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

@@ -1,4 +1,4 @@
-package com.gameplatform.sudokuSolver;
+package com.gameplatform.sudokusolver;
 
 import javafx.scene.control.ToggleButton;
 

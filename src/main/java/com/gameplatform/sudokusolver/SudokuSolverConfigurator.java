@@ -1,4 +1,4 @@
-package com.gameplatform.sudokuSolver;
+package com.gameplatform.sudokusolver;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -120,7 +120,11 @@ class SudokuSolverConfigurator {
                 if (numberToSet.equals("10")) {
                     field.setText("");
                 } else {
-                    field.setText(numberToSet);
+                    if (field.getText().equals(numberToSet)) {
+                        field.setText("");
+                    } else {
+                        field.setText(numberToSet);
+                    }
                 }
                 checkDuplicatedValues();
             }

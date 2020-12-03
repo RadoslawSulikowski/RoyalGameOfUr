@@ -1,35 +1,48 @@
 .grey-button {
-    -fx-background-color: "DCDCDC";
+    -fx-background-color: #DCDCDC;
     -webkit-fx-font-color: black;
 }
 
 .grey-button:hover {
-    -fx-background-color: "666666";
+    -fx-background-color: #666666;
+}
+
+.grey-button:selected:hover {
+    -fx-background-color: #666666;
 }
 
 .grey-button:selected {
-    -fx-background-color: "999999";
+    -fx-background-color: #999999;
 }
 
 .blue-button {
-    -fx-background-color: "ADD8E6";
+    -fx-background-color: #ADD8E6;
 }
 
 .blue-button:hover {
-    -fx-background-color: "2E485E";
+    -fx-background-color: #2E485E;
+}
+
+.blue-button:selected:hover {
+    -fx-background-color: #2E485E;
 }
 
 .blue-button:selected {
-    -fx-background-color: "6B92E6";
+    -fx-background-color: #6B92E6;
 }
 
 .red-button {
-    -fx-background-color: "703224";
-    -webkit-fx-font-color: "A60000";
+    -fx-background-color: #BD0006;
+    -webkit-fx-font-color: #6C0005;
+}
+
+.red-button:hover {
+    -fx-background-color: #8A0000;
+    -webkit-fx-font-color: #330103;
 }
 
 .green-button {
-    -fx-background-color: "90EE90";
-    -webkit-fx-font-color: "49744B";
+    -fx-background-color: #90EE90;
+    -webkit-fx-font-color: #49744B;
 }
 

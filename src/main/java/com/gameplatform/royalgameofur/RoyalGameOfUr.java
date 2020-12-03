@@ -1,4 +1,4 @@
-package com.gameplatform.RoyalGameOfUr;
+package com.gameplatform.royalgameofur;
 
 import com.gameplatform.HighScore;
 import com.gameplatform.MainMenu;

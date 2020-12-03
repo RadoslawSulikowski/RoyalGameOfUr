@@ -1,4 +1,4 @@
-package com.gameplatform.RoyalGameOfUr;
+package com.gameplatform.royalgameofur;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

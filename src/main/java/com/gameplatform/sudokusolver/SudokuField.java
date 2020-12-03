@@ -1,4 +1,4 @@
-package com.gameplatform.sudokuSolver;
+package com.gameplatform.sudokusolver;
 
 import java.util.ArrayList;
 import java.util.List;
